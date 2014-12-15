@@ -17,12 +17,14 @@ module.exports = function(sequelize, DataTypes) {
   }, {
     classMethods: {
       associate: function(models) {
-        // User.hasmany(models.Artist)
+        User.hasOne(models.Artist);
       },
+      // salt the password!
       encryptPass: function(password) {
         var hash = bcrypt.hashSync(password, salt);
         return hash;
       },
+      // do not salt twice! make sure that the password matches the original one
       comparePass: function(userpass, dbpass) {
         return bcrypt.compareSync(userpass, dbpass);
       },
@@ -31,11 +33,14 @@ module.exports = function(sequelize, DataTypes) {
           err({message:"Password should be more than six characters"});
         }
         else{
+          // the minimum needed to create User
           User.create({
             first_name: first_name,
             last_name: last_name,
             email_address: email_address,
+            // encrypt the password, pass it through the encryptPass function
             password: this.encryptPass(password),
+            //these are the minimum requirements needed before creating a User
           }).done(function(error, user){
             if (error) {
               console.log(error);
