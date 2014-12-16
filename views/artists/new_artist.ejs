@@ -1,0 +1,58 @@
+<% include ../partials/header %>
+
+<div class="artist_page container col-md-12">
+  <div class="rows">
+
+  <h1>New Artist Page</h1>
+
+    <div class="form-group">
+    <form action="/search" method="post" class="search_params">
+      <label autocomplete="off" class="control-label" for="artist_category">Category</label><br>
+      <select class="occupation" id="occupation" name="Artist Categories" name="artist[category]">
+        <option value="1">Architecture</option>
+        <option value="2">Carpentry</option>
+        <option value="3">Ceramics</option>
+        <option value="4">Gastronomy</option>
+        <option value="5">Glass</option>
+        <option value="6">Illustrations</option>
+        <option value="7">Installations</option>
+        <option value="8">Interior Design</option>
+        <option value="9">Jewelry</option>
+        <option value="10">Landscape</option>
+        <option value="11">Mural</option>
+        <option value="12">Painting</option>
+        <option value="13">Permaculture</option>
+        <option value="14">Photography</option>
+        <option value="15">Sculpture</option>
+        <option value="16">Street Art</option>
+        <option value="17">Tattoo</option>
+        <option value="18">Textile</option>
+      </select><br>
+    </div>
+
+    <div class="form-group">
+      <label class="control-label" for="artist_city">City</label><br>
+      <input class="artist-form" id="user_password" name="artist[]" type="text" />
+    </div>
+
+    <div class="form-group">
+      <label autocomplete="off" class="control-label" for="artist_state">State</label><br>
+      <input autofocus="autofocus" class="artist-form" id="artist_state" name="artist[state]" type="text" />
+    </div>
+
+    <div class="form-group">
+      <label autocomplete="off" class="control-label" for="artist_zip">Zip Code</label><br>
+      <input autofocus="autofocus" class="artist-form" id="artist_zip" name="artist[zip_code]" type="text" />
+    </div>
+
+  <h3>Optional: </h3>
+    <div class="form-group">
+      <label autocomplete="off" class="control-label" for="artist_name">Artist Name</label><br>
+      <input autofocus="autofocus" class="artist-form" id="artist_name" name="artist[artist_name]" type="text" />
+    </div>
+
+
+  </div>
+</div>
+
+<% include ../partials/footer %>

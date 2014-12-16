@@ -10,7 +10,7 @@ var express = require("express"),
   // angular = require('angular'),
   app = express();
   var morgan = require('morgan');
-  // var routeMiddleware = require("./config/routes");
+  var routeMiddleware = require("./config/routes");
   // var geocoderProvider = 'google';
   // var httpAdapter = 'http';
   // var geocoder = require('node-geocoder').getGeocoder(geocoderProvider, httpAdapter);
@@ -25,6 +25,19 @@ app.use(methodOverride('_method'));
 app.get('/', function(req, res){
   res.render('index');
 });
+
+app.get('/search', function(req, res){
+  res.render('search_results/search');
+});
+
+app.get('/dashboard', function(req, res){
+  res.render('users/dashboard');
+});
+
+app.get('/new-artist', function(req, res){
+  res.render('artists/new_artist');
+});
+
 
 app.get('*', function(req,res){
 res.status(404);

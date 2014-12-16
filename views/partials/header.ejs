@@ -2,24 +2,27 @@
 <html lang="en">
 <head>
 <!-- Latest compiled and minified CSS -->
+<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 
-<!-- Optional theme -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 
-<script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>
-<script type="text/javascript" src="js/jquery.leanModal.min.js"></script>
-
 <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" />
-<link type="text/css" rel="stylesheet" href="style.css" />
+<link type="text/css" rel="stylesheet" href="style.css"
 
   <meta charset="UTF-8">
-  <title>Document</title>
+  <title>MishMash</title>
 </head>
 <body>
+
+<script>
+  UPLOADCARE_AUTOSTORE = true;
+  UPLOADCARE_PUBLIC_KEY = "8fff672a71e0b671ca07";
+</script>
 
 <script>
   // This is called with the results from from FB.getLoginStatus().
@@ -92,45 +95,34 @@
 
   // Here we run a very simple test of the Graph API after login is
   // successful.  See statusChangeCallback() for when this call is made.
-  function testAPI() {
-    console.log('Welcome!  Fetching your information.... ');
-    FB.api('/me', function(response) {
-      console.log('Successful login for: ' + response.name);
-      document.getElementById('status').innerHTML =
-        'Thanks for logging in, ' + response.name + '!';
-    });
-  }
+  // function testAPI() {
+  //   console.log('Welcome!  Fetching your information.... ');
+  //   FB.api('/me', function(response) {
+  //     console.log('Successful login for: ' + response.name);
+  //     document.getElementById('status').innerHTML =
+  //       'Thanks for logging in, ' + response.name + '!';
+  //   });
+  // }
 </script>
 
-
-<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-  <div class="container-fluid">
+<!-- NAV BAR! -->
+<nav class="navbar navbar-fixed-top col-md-12 col-sm-12" role="navigation">
+  <div class="container-fluid row col-md-12 col-sm-12" style="padding-left:20px; padding-right:20px">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="#">MishMash</a>
+      <a class="navbar-brand" href="/" style="color:#FF4036">MishMash</a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
-        <li><a href="#">Link</a></li>
-      </ul>
+
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#">Sign Up</a></li>
-        <li><a href="#">Log In</a></li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
+        <li><a href="#signModal" data-toggle="modal" class="sign-link">Sign Up</a></li>
+        <li><a href="#loginModal" data-toggle="modal" class="sign-link">Log In</a></li>
+        <li class="dropdown hover">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">user.username<span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
-            <li><a href="#">Action</a></li>
-            <li><a href="#">Another action</a></li>
-            <li><a href="#">Something else here</a></li>
+            <li><a href="/dashboard">Dashboard</a></li>
             <li class="divider"></li>
             <li><a href="#">Log Out</a></li>
           </ul>
@@ -140,8 +132,113 @@
   </div><!-- /.container-fluid -->
 </nav>
 
-<div class="container">
+<div class="modal fade" id="signModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Sign Up</h4>
+      </div>
+      <div class="modal-body">
+      <h2>MishMash is a community of creators, artists, and uniqueness.</h2>
+      <p>Sign up with Facebook:</p>
+        <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+        </fb:login-button>
+      <p>Or with Email:</p>
+        <div class="form-group">
+          <label autocomplete="off" class="control-label" for="user_username">Email Address</label>
+          <input autofocus="autofocus" class="form-control" id="user_username" name="user[username]" type="text" />
+        </div>
 
+        <div class="form-group">
+          <label class="control-label" for="user_password">Password</label>
+          <input class="form-control" id="user_password" name="user[password]" type="password" />
+        </div>
+
+        <div class="form-group">
+          <label class="control-label" for="user_password_confirmation">Password confirmation</label>
+          <input class="form-control" id="user_password_confirmation" name="user[password_confirmation]" type="password" />
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span>
+        <h4 class="modal-title" id="myModalLabel">Log In</h4>
+      </div>
+      <div class="modal-body">
+       <h2>Log In with Facebook:</h2>
+        <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+        </fb:login-button>
+        <h3>Or with Email:</h3>
+       <form action="">Email</form>
+       <form action="">Password</form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary">Submit</button>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<!-- LOG IN MODAL -->
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header login_modal_header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h2 class="modal-title" id="myModalLabel">Login to Your Account</h2>
+          </div>
+          <div class="modal-body login-modal">
+            <p>MishMash. A community of artists, creators, and innovators.</p>
+            <br/>
+            <div class="clearfix"></div>
+            <div id='social-icons-conatainer'>
+              <div class='modal-body-left'>
+                <div class="form-group">
+                  <label autocomplete="off" class="control-label" for="user_username">Email Address</label>
+                  <input autofocus="autofocus" class="form-control" id="user_username" name="user[username]" type="text" />
+                </div>
+
+                <div class="form-group">
+                  <label class="control-label" for="user_password">Password</label>
+                  <input class="form-control" id="user_password" name="user[password]" type="password" />
+                </div>
+
+                  <a href="#" class="btn btn-success modal-login-btn">Login</a>
+                  <a href="#" class="login-link text-center">Lost your password?</a>
+              </div>
+
+              <div class='modal-body-right'>
+                <div class="modal-social-icons">
+                  <a href='#' class="btn btn-default facebook"> <i class="fa fa-facebook modal-icons"></i><fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+        </fb:login-button></a>
+                  <a href='#' class="btn btn-default google"> <i class="fa fa-google-plus modal-icons"></i> Sign In with Google </a>
+                </div>
+              </div>
+              <div id='center-line'> OR </div>
+            </div>
+            <div class="clearfix"></div>
+
+            <div class="form-group modal-register-btn">
+              <button class="btn btn-default"> New User Please Register</button>
+            </div>
+          </div>
+          <div class="clearfix"></div>
+          <div class="modal-footer login_modal_footer">
+          </div>
+      </div>
+    </div>
+</div>
 
 
 

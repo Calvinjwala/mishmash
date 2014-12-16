@@ -1,15 +1,127 @@
 <% include partials/header %>
 
-<h1>hello</h1><br><br>
-<h1>hello</h1><br><br>
-<h1>hello</h1><br><br>
+<div class="container-fluid col-lg-12">
 
-<!-- Have the Facebook login and Google Login in a pop up -->
-<fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
-</fb:login-button>
+  <div id="img_carousel" class="carousel slide" data-ride="carousel">
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+      <li data-target="#img_carousel" data-slide-to="0" class="active"></li>
+      <li data-target="#img_carousel" data-slide-to="1"></li>
+      <li data-target="#img_carousel" data-slide-to="2"></li>
+    </ol>
 
-<div id="status">
-</div>
+    <!-- Wrapper for slides -->
+  <div class="carousel-inner" role="listbox" style="width:100%">
+    <div class="item active banner_image1">
+      <div class="carousel-caption">
+        <h1 class="banner_text col-lg-12 col-md-12">Be discovered in your neighborhood.</h1>
+      </div>
+    </div>
+    <div class="item banner_image2">
+      <div class="carousel-caption">
+        <h1 class="banner_text col-lg-12 col-md-12">Your hobby, your passions, deserve to be seen.</h1>
+      </div>
+    </div>
+    <div class="item banner_image3">
+      <div class="carousel-caption">
+        <h1 class="banner_text col-lg-12 col-md-12">Share your creations and get hired for your skills.</h1>
+      </div>
+    </div>
+  </div>
 
+    <!-- Controls -->
+    <a class="left carousel-control" href="#img_carousel" role="button" data-slide="prev">
+      <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#img_carousel" role="button" data-slide="next">
+      <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>
+
+  <div class="row icons col-lg-12">
+    <h2 style="text-align:center; margin-bottom: 50px">MishMash is a community of creators, do-ers, <br>innovators, and square pegs (as the expression goes)</h2>
+    <div class="col-md-4">
+      <div class="circle" id="bike">
+        <img src="images/old-bike.png">
+        <div class="caption">
+          <h4>Creativity beyond the canvas.</h4>
+          <p>We support new ideas and artists<br>from all walks of life</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="circle" id="camera">
+        <img src="images/camera.png">
+        <div class="caption">
+          <h4>Art takes many forms</h4>
+          <p>From seamstresses, to tattoo artists, <br>we are redefining available art <br> and services</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="circle" id="painting">
+        <img src="images/painting.png">
+        <div class="caption">
+          <h4>MishMash connects people</h4>
+          <p>Discover local artists and innovators <br> in a wide range of categories</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container-fluid search-bar">
+    <h1 style="text-align:center">Search San Francisco for Local Artists</h1>
+      <form action="/search" method="post" class="search_params">
+  <!--       <div class="location-wrapper"><input type="text" class="form-inline location input-large input-contrast" autocomplete="off" id="location" name="location" placeholder="Where do you want to go?" /><p id="enter_location_error_message" class="bad hide">
+        Please set location
+       </p></div> -->
+        <select class="occupation1" name="Artist Categories">
+          <option value="1">Architecture</option>
+          <option value="2">Carpentry</option>
+          <option value="3">Ceramics</option>
+          <option value="4">Gastronomy</option>
+          <option value="5">Glass</option>
+          <option value="6">Illustrations</option>
+          <option value="7">Installations</option>
+          <option value="8">Interior Design</option>
+          <option value="9">Jewelry</option>
+          <option value="10">Landscape</option>
+          <option value="11">Mural</option>
+          <option value="12">Painting</option>
+          <option value="13">Permaculture</option>
+          <option value="14">Photography</option>
+          <option value="15">Sculpture</option>
+          <option value="16">Street Art</option>
+          <option value="17">Tattoo</option>
+          <option value="18">Textile</option>
+        </select>
+
+      <input type="hidden" name="source" value="bb"><button type="submit" class="search-button form-inline btn btn-primary btn-large" id="submit_location">
+        Search</button>
+      </form>
+    </div>
+  </div>
+
+</div>  <!-- closes out div container  -->
+
+<script>$('.carousel').carousel()</script>
+
+<script>
+function setDimensions(){
+   var windowsHeight = $(window).height();
+   $('.item').css('height', windowsHeight + 'px');
+   $('.carousel-caption').css('height', (windowsHeight/2) + 'px');
+
+}
+
+//when resizing the site, we adjust the heights of the sections
+$(window).resize(function() {
+    setDimensions();
+});
+
+setDimensions();
+</script>
 
 <% include partials/footer %>

@@ -1,7 +1,192 @@
+/* body styling */
 body {
-  background-color: ;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 110%;
+  font: black;
+}
+
+.container-fluid {
+padding-right: 0px;
+padding-left: 0px;
+margin-right: auto;
+margin-left: auto;
 }
 
 .container {
   margin-top: 50px;
+}
+
+/* navbar styling*/
+.navbar-brand {
+  font-size: 200%;
+}
+
+.navbar {
+  background-color: transparent;
+  color: red;
+}
+
+
+/* banner stylings */
+.item {
+  display: block;
+  position: absolute;
+  width: 100%;
+  max-height: 100%;
+  overflow: hidden;
+}
+
+.banner_image1 {
+    background-image: url("images/san_francisco.jpg");
+    background-size:cover;
+    background-attachment: fixed;
+    background-position: bottom;
+}
+
+.banner_image2 {
+    background-image: url("images/photographer.jpg");
+    background-size:cover;
+    background-attachment: fixed;
+    background-position: center;
+    width: 100%
+}
+
+.banner_image3 {
+    background-image: url("images/carpentry.jpg");
+    background-size:cover;
+    background-attachment: fixed;
+    background-position: center;
+    width: 100%;
+}
+
+.carousel-caption {
+  position: absolute;
+  right: 15%;
+  bottom: 50px;
+  left: 15%;
+  z-index: 10;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  color: #fff;
+  text-align: center;
+  text-shadow: 0 1px 2px rgba(0,0,0,.6);
+}
+
+/* everything below the front banner */
+/* icons */
+.icons {
+  margin-top: 30px;
+  margin-top: 0 auto;
+  text-align: center;
+}
+
+.circle {
+  margin: 0 auto;
+  border-radius: 50%;
+  width: 285px;
+  height: 285px;
+  display: inline-block;
+  margin-bottom: 30px;
+}
+
+/* ids for the circles*/
+#bike {
+  background-color: #FFF573;
+}
+
+#camera {
+  background-color: #B25C62;
+}
+
+#painting {
+  background-color: #6398B2;
+}
+
+
+/* search bar at bottom */
+.search-bar{
+  margin-bottom: 30px;
+}
+
+.occupation1 {
+  width: 40%;
+  height: 35px;
+  font-size: 250%;
+}
+
+.search_params {
+  text-align: center;
+}
+
+.search-button {
+  margin-bottom: 50px;
+}
+
+
+.occupation {
+  width: 50%;
+  font-size: 250%;
+}
+
+
+.nav>li>a {
+  color: #FF4036;
+}
+
+.artist-form {
+  width: 50%;
+}
+
+/* MAP styling */
+.mapCanvas{
+    width: 600px;
+    height: 625px;
+}
+.markerOptions
+{
+    margin-left: -25px;
+}
+.markerOptions li
+{
+    font-family: arial, sans-serif;
+    cursor: pointer;
+    margin-bottom: 3px;
+    padding: 10px;
+    color:#FFFFFF;
+    list-style-type:none;
+    position: relative;
+    background: #6FAEED;
+    -webkit-border-radius: 7px;
+    -moz-border-radius: 7px;
+    border-radius: 7px;
+}
+.markerOptions .selectedMarker
+{
+    background-color:#5585B5;
+}
+.markerOptions .selectedMarker:after
+{
+    border-color: transparent #5585B5;
+}
+
+.markerOptions li:after
+{
+    content: '';
+    position: absolute;
+    border-style: solid;
+    border-width: 12px 22px 12px 0;
+    border-color: transparent #6FAEED;
+    display: block;
+    width: 0;
+    z-index: 1;
+    left: -22px;
+    top: 8px;
+}
+.mapContainer
+{
+    display:inline-block;
+}
+.mapContainer div, .mapContainer ul
+{
+    float:left;
 }

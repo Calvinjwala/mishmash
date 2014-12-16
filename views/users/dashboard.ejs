@@ -1,0 +1,51 @@
+<% include ../partials/header %>
+
+<div class="container">
+<h1>hello</h1>
+
+<div class="cover_img"></div>
+
+<form action="/user-id" method="post">
+<p>Upload your Profile Picture</p>
+<input type="hidden"
+  role="uploadcare-uploader"
+  data-crop="150:150"
+  data-images-only="true" />
+<img src="" alt="">
+<br><br>
+
+
+<p>Upload a Banner Photo</p>
+<input type="hidden"
+  role="uploadcare-uploader"
+  data-crop="1175:250"
+  data-images-only="true" />
+<br><br>
+
+ <input type="submit" value="Save" class ="btn">
+ </form>
+
+<br>
+<a href="/new-artist">Become a new Artist</a>
+</div>
+
+<script src="//ucarecdn.com/widget/1.5.0/uploadcare/uploadcare-1.5.0.min.js"></script>
+
+<script>
+  uploadcare(null, {
+    crop: "1175:250",
+    imagesOnly: true
+  }).done(function(file) {
+    console.log(file)
+    file.promise().done(function(fileInfo){
+      console.log(fileInfo.cdnUrl);
+    });
+  });
+</script>
+
+<script>
+var $ = uploadcare.jQuery;
+$('cover_img').append('fileInfo.cdnUrl')
+</script>
+
+<% include ../partials/footer %>

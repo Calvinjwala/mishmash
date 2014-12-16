@@ -1,0 +1,50 @@
+<div class="container-fluid">
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=&sensor=true"></script>
+<script type="text/javascript">
+  markers = [];
+  function initialize() {
+    var mapOptions = {
+      center: new google.maps.LatLng(53.23283117761171, -3.2718089257812),
+      zoom: 5,
+      mapTypeId: google.maps.MapTypeId.ROADTYPE,
+      panControl: true,
+      zoomControl: true,
+      mapTypeControl: true,
+      scaleControl: true,
+      streetViewControl: true
+    };
+    map = new google.maps.Map(document.getElementById("mapCanvas"),mapOptions);
+
+  }
+  google.maps.event.addDomListener(window, "load", initialize);
+
+  $(document).ready(function()
+  {
+      $('#markerOptions li').on('click', function()
+      {
+          $('#markerOptions li').removeClass('selectedMarker');
+          $(this).addClass('selectedMarker');
+          var markerId = $(this).attr('data-marker');
+          var lat = markers[markerId].position.lat();
+          var lng = markers[markerId].position.lng();
+          map.setCenter(new google.maps.LatLng(lat, lng));
+          map.setZoom(10);
+      });
+  });
+
+</script>
+
+<h1>hi </h1>
+
+<div class="mapContainer">
+    <div id="mapCanvas" class="mapCanvas"></div>
+    <ul id="markerOptions" class="markerOptions">
+    </ul>
+</div>
+
+
+
+
+</div>
