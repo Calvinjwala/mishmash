@@ -4,10 +4,10 @@ module.exports = function(sequelize, DataTypes) {
   var Album = sequelize.define("Album", {
     title: DataTypes.STRING,
     image: DataTypes.STRING,
-    mainImage: DataTypes.BOOLEAN,
+    main_image: DataTypes.BOOLEAN,
     description: DataTypes.TEXT,
-    metaDescription: DataTypes.TEXT,
-    isAvailable: DataTypes.BOOLEAN,
+    meta_description: DataTypes.TEXT,
+    is_available: DataTypes.BOOLEAN,
     price: DataTypes.STRING,
     ArtistId: DataTypes.INTEGER
   }, {

@@ -77,12 +77,14 @@ app.get('/', function(req, res){
   res.render('index');
 });
 
-app.post('/users/new_user', function(req, res){
+app.post('/submit', function(req, res){
   db.User.createNewUser(req.body.firstName, req.body.lastName, req.body.emailAddress, req.body.password,
         function(err){
+          console.log(err);
           res.redirect('/', {message: err.message, firstName: req.body.firstName});
         },
         function(success){
+          console.log(success);
           res.redirect('/', {message: success.message});
         }
       );

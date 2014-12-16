@@ -7,15 +7,24 @@ var salt = bcrypt.genSaltSync(10);
 
 module.exports = function(sequelize, DataTypes) {
   var User = sequelize.define("User", {
-    firstName: DataTypes.STRING,
-    lastName: DataTypes.STRING,
-    emailAddress: DataTypes.STRING,
-    password: DataTypes.STRING,
-    passwordDigest: DataTypes.STRING,
-    resetToken: DataTypes.STRING,
-    profilePhoto: DataTypes.STRING,
-    coverPhoto: DataTypes.STRING,
-    aboutMe: DataTypes.TEXT
+    first_name: DataTypes.STRING,
+    last_name: DataTypes.STRING,
+    email_address: {
+      type: DataTypes.STRING,
+      unique: true,
+      allowNull:false,
+    },
+    password: {
+      type: DataTypes.STRING,
+      validate: {
+        len: [6, 100000000]
+      }
+    },
+    password_digest: DataTypes.STRING,
+    reset_token: DataTypes.STRING,
+    profile_photo: DataTypes.STRING,
+    cover_photo: DataTypes.STRING,
+    about_me: DataTypes.TEXT
   }, {
     classMethods: {
       associate: function(models) {
@@ -30,35 +39,69 @@ module.exports = function(sequelize, DataTypes) {
       comparePass: function(userpass, dbpass) {
         return bcrypt.compareSync(userpass, dbpass);
       },
-      createNewUser: function(firstName, lastName, emailAddress, password, err, success) {
+      createNewUser: function(first_name, last_name, email_address, password, err, success) {
         if (password.length < 6) {
           err({message:"Password should be more than six characters"});
         }
         else{
           // the minimum needed to create User
           User.create({
-            firstName: firstName,
-            lastName: lastName,
-            emailAddress: emailAddress,
+            first_name: first_name,
+            last_name: last_name,
+            email_address: email_address,
             // encrypt the password, pass it through the encryptPass function
             password: this.encryptPass(password),
             //these are the minimum requirements needed before creating a User
           }).done(function(error, user){
             if (error) {
               console.log(error);
-              if (error.name === 'SequelizeUniqueConstraintError'){
-                err({message: 'An account with that username already exists', emailAddress:emailAddress});
-              } else {
-                err({message: "Unknown error"});
+              if(error.name === 'SequelizeValidationError'){
+                err({message: 'Your password should be at least 6 characters long', password: password});
               }
-            } else{
-              success({message: 'Your account has been created! Please log in.'});
+              else if (error.name === 'SequelizeUniqueConstraintError'){
+                err({message: 'An account with that email already exists', email_address:email_address});
+              }
+              else{
+              success({message: 'Account created, please log in now'});
+              }
             }
-          });
+            else {
+              return user;
+            }
+        });
         }
-      },
-    }
+      }
+    },
   });
+
+    passport.use(new passportLocal.Strategy({
+        usernameField: 'username',
+        passwordField: 'password',
+        passReqToCallback : true
+    },
+
+    function(req, email_address, password, done) {
+      // find a user in the DB
+      User.find({
+          where: {
+            email_address: email_address
+          }
+        })
+        // when that's done,
+        .done(function(error,user){
+          if(error){
+            console.log(error);
+            return done (err, req.flash('loginMessage', 'Oops! Something went wrong.'));
+          }
+          if (user === null){
+            return done (null, false, req.flash('loginMessage', 'Username does not exist.'));
+          }
+          if ((User.comparePass(password, user.password)) !== true){
+            return done (null, false, req.flash('loginMessage', 'Invalid Password'));
+          }
+          done(null, user);
+        });
+      }));
 
   return User;
 };

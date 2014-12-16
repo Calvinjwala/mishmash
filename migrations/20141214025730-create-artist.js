@@ -8,9 +8,6 @@ module.exports = {
         primaryKey: true,
         type: DataTypes.INTEGER
       },
-      artist_id: {
-        type: DataTypes.STRING
-      },
       artist_name: {
         type: DataTypes.STRING
       },
