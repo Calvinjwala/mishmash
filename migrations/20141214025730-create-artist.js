@@ -26,6 +26,10 @@ module.exports = {
       category: {
         type: DataTypes.INTEGER
       },
+      UserId: {
+        type: DataTypes.INTEGER,
+        foreignKey: true
+      },
       createdAt: {
         allowNull: false,
         type: DataTypes.DATE

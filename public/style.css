@@ -110,18 +110,14 @@ margin-left: auto;
 
 .occupation1 {
   width: 40%;
-  height: 35px;
   font-size: 250%;
 }
 
 .search_params {
   text-align: center;
+  margin-top: 30px;
+  margin-bottom: 30px;
 }
-
-.search-button {
-  margin-bottom: 50px;
-}
-
 
 .occupation {
   width: 50%;
@@ -138,7 +134,7 @@ margin-left: auto;
 }
 
 /* MAP styling */
-.mapCanvas{
+/*.mapCanvas{
     width: 600px;
     height: 625px;
 }
@@ -189,4 +185,4 @@ margin-left: auto;
 .mapContainer div, .mapContainer ul
 {
     float:left;
-}
+}*/

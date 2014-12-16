@@ -12,7 +12,7 @@ var express = require("express"),
   var morgan = require('morgan');
   var routeMiddleware = require("./config/routes");
   // var geocoderProvider = 'google';
-  // var httpAdapter = 'http';
+  var httpAdapter = 'http';
   // var geocoder = require('node-geocoder').getGeocoder(geocoderProvider, httpAdapter);
 
 
@@ -22,16 +22,79 @@ app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({extended: true}) );
 app.use(methodOverride('_method'));
 
+app.use(session( {
+  secret: 'thisismysecretkey',
+  name: 'choco chip!',
+  // this is in milliseconds
+  maxage: 3600000
+  })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash());
+
+// prepare our serialize functions
+passport.serializeUser(function(user, done){
+  console.log("serialize ran!");
+  done(null, user.id);
+});
+
+// prepare our deserialize function
+passport.deserializeUser(function(id, done){
+  console.log("deserialize ran!");
+  db.User.find({
+    where: {
+      id: id
+    }
+  })
+  .done(function(error, user){
+    done(error, user);
+  });
+});
+
+
+// ROUTING //
+
+// landing page //
 app.get('/', function(req, res){
+//   db.User.create({first_name: "billy", last_name: "bob"}).success(function(user){
+//     console.log("created user", user);
+//     db.Artist.create({artist_name: "stones", city: "london"}).success(function(artist){
+//       console.log("artist created!");
+//       user.setArtist(artist).success(function(artist){
+//         // console.log("set!");
+//         console.log(artist);
+//         db.Album.create({title: "40 licks"}).success(function(album){
+//           artist.setAlbums([album]).success(function(){
+//             console.log("set!");
+//           });
+//         });
+//       });
+//     });
+//   });
+// });
   res.render('index');
+});
+
+app.post('/users/new_user', function(req, res){
+  db.User.createNewUser(req.body.firstName, req.body.lastName, req.body.emailAddress, req.body.password,
+        function(err){
+          res.redirect('/', {message: err.message, firstName: req.body.firstName});
+        },
+        function(success){
+          res.redirect('/', {message: success.message});
+        }
+      );
+  // res.render('/');
 });
 
 app.get('/search', function(req, res){
   res.render('search_results/search');
 });
 
-app.get('/dashboard', function(req, res){
-  res.render('users/dashboard');
+app.get('/dashboard', routeMiddleware.checkAuthentication, function(req, res){
+  res.render('users/dashboard', {user: req.user});
 });
 
 app.get('/new-artist', function(req, res){
@@ -40,8 +103,8 @@ app.get('/new-artist', function(req, res){
 
 
 app.get('*', function(req,res){
-res.status(404);
-res.render('404');
+  res.status(404);
+  res.render('404');
 });
 
 app.listen(process.env.PORT || 3000, function(){

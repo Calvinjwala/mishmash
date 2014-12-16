@@ -29,6 +29,10 @@ module.exports = {
       price: {
         type: DataTypes.STRING
       },
+      ArtistId: {
+        type: DataTypes.INTEGER,
+        foreignKey: true
+      },
       createdAt: {
         allowNull: false,
         type: DataTypes.DATE
