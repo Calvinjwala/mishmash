@@ -1,30 +1,33 @@
-<% include ../partials/header %>
+<% include ../partials/user_nav %>
 
 <div class="container">
-<h1>Hello, <first name></h1><br>
-
-<div class="cover_img"></div>
+<h1>Hello, <%= user.first_name %></h1><br>
 
 <form action="/my_profile" method="post">
 <p>Upload your Profile Picture</p>
-<input type="hidden"
+<input type="hidden" name="profile_photo"
   role="uploadcare-uploader"
   data-crop="150:150"
   data-images-only="true" />
 <img src="" alt="">
+   <% if (user.cover_photo !== null) { %>
+  <%= user.cover_photo %>
+  <% }; %>
 <br><br>
 
 
-<p>Upload a Banner Photo</p>
-<input type="hidden"
+<p>Upload a Banner Image</p>
+<input type="hidden" name="cover_photo"
   role="uploadcare-uploader"
   data-crop="1175:250"
   data-images-only="true" />
+  <% if (user.profile_photo !== null) { %>
+  <%= user.profile_photo %>
+  <% }; %>
 <br><br>
 
-
 <p>
-  <label for="about_me">About Me</label><br><textarea rows="4" cols="100" id="about_me" maxlength="500"></textarea>
+  <label for="about_me" name="about_me">About Me</label><br><textarea rows="4" cols="100" id="about_me" maxlength="500"></textarea>
 </p>
 
 <br>
@@ -32,6 +35,7 @@
  <input type="submit" value="Save" class ="btn">
  </form>
 
+<br>
 <br>
 <a href="/new-artist">Become a new Artist</a>
 </div>

@@ -1,2 +1,12 @@
 <!-- this should display their profile photo, cover image, and about me. -->
-<h1>hello</h1>
+<div class="container-fluid">
+  <div class="rows">
+
+    <h1>hello</h1>
+    <div class="coverPic" img-url="<%= user.cover_photo %>">
+    </div>
+    <div class="profilePic" img-src="<%= user.profile_photo %>">
+    </div>
+    <div class="<%= user.about_me %>"></div>
+  </div>
+</div>

@@ -13,7 +13,23 @@ module.exports = function(sequelize, DataTypes) {
       associate: function(models) {
         Artist.hasMany(models.Album, {foreignKey: "ArtistId"});
         Artist.belongsTo(models.User);
-      }
+      },
+      createNewArtist:function(city, state, zip_code, category, artist_name, err, success ) {
+        Artist.create({
+            city: city,
+            state: state,
+            zip_code: zip_code,
+            category: category,
+            artist_name: artist_name
+          }).done(function(error,user) {
+            if(error) {
+              console.log(error);
+            }
+            else{
+              success({message: 'Account created, please log in now'});
+            }
+          });
+        }
     }
   });
   return Artist;

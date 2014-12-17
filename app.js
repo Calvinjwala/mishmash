@@ -55,10 +55,11 @@ passport.deserializeUser(function(id, done){
 });
 
 
+
 // ROUTING //
 
 // landing page //
-app.get('/', function(req, res){
+app.get('/', routeMiddleware.preventLoginSignup, function(req, res){
 //   db.User.create({first_name: "billy", last_name: "bob"}).success(function(user){
 //     console.log("created user", user);
 //     db.Artist.create({artist_name: "stones", city: "london"}).success(function(artist){
@@ -140,17 +141,14 @@ app.get('/new-artist', function(req, res){
 
 // USER PROFILE
 // DEPLOY BELOW ONCE login works
-// app.get('/my_profile', function(req,res){
-//   db.User.find(req.user.id).done(function(err, user){
-//     user.getUsers().done(function(err, user){
-//     res.render('users/user_profile', {user:req.user});
-//     });
-//   });
-// });
 app.get('/my_profile', function(req,res){
-  res.render('users/user_profile');
-});
-
+  db.User.find(req.user.id).done(function(err, user){
+    res.render('users/user_profile', {user:req.user});
+    });
+  });
+// app.get('/my_profile', function(req,res){
+//   res.render('users/user_profile');
+// });
 
 
 app.get('/messages', function(reqs, res){
@@ -172,8 +170,6 @@ app.get('/search', function(req,res){
 
 
 
-
-
 // app.post('/artist-submit', function(req, res){
 //   db.Artist.createNewArtist(req.body.first_name, req.body.last_name, req.body.email_address, req.body.password,
 //         function(err){
@@ -191,9 +187,11 @@ app.get('/search', function(req,res){
 // });
 
 
-
-
-
+app.get('/logout', function(req,res){
+  //req.logout added by passport - delete the user id/session
+  req.logout();
+  res.redirect('/');
+});
 
 app.get('*', function(req,res){
   res.status(404);
