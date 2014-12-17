@@ -54,20 +54,22 @@ module.exports = function(sequelize, DataTypes) {
             //these are the minimum requirements needed before creating a User
           }).done(function(error, user){
             if (error) {
-              console.log(error);
-              if(error.name === 'SequelizeValidationError'){
-                err({message: 'Your password should be at least 6 characters long', password: password});
-              }
-              else if (error.name === 'SequelizeUniqueConstraintError'){
+              // console.log(error);
+              // if(error.name === 'SequelizeValidationError'){
+              //   err({message: 'Your password should be at least 6 characters long', password: password});
+              // }
+              // else
+              if (error.name === 'SequelizeUniqueConstraintError'){
                 err({message: 'An account with that email already exists', email_address:email_address});
               }
-              else{
+              err({message: "Unknown error"});
+            }
+            else{
               success({message: 'Account created, please log in now'});
-              }
             }
-            else {
-              return user;
-            }
+            // else {
+            //   return user;
+            // }
         });
         }
       }
@@ -75,7 +77,7 @@ module.exports = function(sequelize, DataTypes) {
   });
 
     passport.use(new passportLocal.Strategy({
-        usernameField: 'username',
+        emailField: 'email_address',
         passwordField: 'password',
         passReqToCallback : true
     },
@@ -90,7 +92,6 @@ module.exports = function(sequelize, DataTypes) {
         // when that's done,
         .done(function(error,user){
           if(error){
-            console.log(error);
             return done (err, req.flash('loginMessage', 'Oops! Something went wrong.'));
           }
           if (user === null){

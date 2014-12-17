@@ -1,11 +1,11 @@
 <% include ../partials/header %>
 
 <div class="container">
-<h1>hello</h1>
+<h1>Hello, <first name></h1><br>
 
 <div class="cover_img"></div>
 
-<form action="/user-id" method="post">
+<form action="/my_profile" method="post">
 <p>Upload your Profile Picture</p>
 <input type="hidden"
   role="uploadcare-uploader"
@@ -21,6 +21,13 @@
   data-crop="1175:250"
   data-images-only="true" />
 <br><br>
+
+
+<p>
+  <label for="about_me">About Me</label><br><textarea rows="4" cols="100" id="about_me" maxlength="500"></textarea>
+</p>
+
+<br>
 
  <input type="submit" value="Save" class ="btn">
  </form>
