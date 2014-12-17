@@ -20,13 +20,15 @@ module.exports = function(sequelize, DataTypes) {
             state: state,
             zip_code: zip_code,
             category: category,
-            artist_name: artist_name
+            artist_name: artist_name,
+            // how do I get this information?
+            // UserId: req.this.UserId
           }).done(function(error,user) {
             if(error) {
               console.log(error);
             }
             else{
-              success({message: 'Account created, please log in now'});
+              success({message: 'You are now an artist!'});
             }
           });
         }

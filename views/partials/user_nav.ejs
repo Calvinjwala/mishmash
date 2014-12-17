@@ -121,11 +121,13 @@
 
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown hover">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><%= user.first_name %><span class="caret"></span></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+          <%=  user.first_name %><span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
             <li><a href="/dashboard">Dashboard</a></li>
             <li><a href="/my_profile">My Profile</a></li>
             <li><a href="/messages">Messages</a></li>
+            <li><a href="/new-artist">Become an Artist</a></li>
             <li class="divider"></li>
             <li><a href="/logout">Log Out</a></li>
           </ul>

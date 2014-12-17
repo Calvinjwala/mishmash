@@ -67,8 +67,22 @@ module.exports = function(sequelize, DataTypes) {
           });
         }
       },
+      updateInfo: function(user_id, cover_photo, profile_photo, about_me, err, success) {
+        User.find({ where: {id: user_id}}).success(function (user) {
+          console.log("WOW User is: " + user.first_name);
+          console.log("WOW about_me is: " + about_me);
+          user.updateAttributes({
+            'cover_photo': cover_photo,
+            'profile_photo': profile_photo,
+            'about_me': about_me
+          }).success(function(updatedUser) {
+            console.log("User updated about_me is: ", updatedUser.about_me);
+          });
+        });
       }
-  }
+
+    } // END CLASS METHODS
+    }
   );
 
     passport.use(new passportLocal.Strategy({

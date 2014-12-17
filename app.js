@@ -60,22 +60,6 @@ passport.deserializeUser(function(id, done){
 
 // landing page //
 app.get('/', routeMiddleware.preventLoginSignup, function(req, res){
-//   db.User.create({first_name: "billy", last_name: "bob"}).success(function(user){
-//     console.log("created user", user);
-//     db.Artist.create({artist_name: "stones", city: "london"}).success(function(artist){
-//       console.log("artist created!");
-//       user.setArtist(artist).success(function(artist){
-//         // console.log("set!");
-//         console.log(artist);
-//         db.Album.create({title: "40 licks"}).success(function(album){
-//           artist.setAlbums([album]).success(function(){
-//             console.log("set!");
-//           });
-//         });
-//       });
-//     });
-//   });
-// });
   res.render('index');
 });
 
@@ -106,20 +90,19 @@ app.post('/submit', function(req, res){
         function(err){
           console.log("ERROR!");
           console.log(err);
-          res.redirect('/');//, {message: err.message, email_address: req.body.email_address});
+          res.redirect('/');
         },
         function(success){
           res.alert("GREAT SUCCESS!");
           console.log(success);
-          res.redirect('/');//, {message: success.message});
+          res.redirect('/');
         }
       );
 });
 
 
-
 app.get('/search', function(req, res){
-  res.render('search_results/search');
+  res.render('search_results/search', {search: req.category});
 });
 
 // DASHBOARD FOR USER
@@ -136,22 +119,61 @@ app.get('/dashboard', routeMiddleware.checkAuthentication, function(req, res){
 // LINK TO BECOME AN ARTIST
 // need to make it disappear once they are officially artists
 app.get('/new-artist', function(req, res){
-  res.render('artists/new_artist');
+  res.render('artists/new_artist', {user: req.user});
+});
+
+app.get('/artist/:id', function(req, res){
+  res.render('artists/artist_profile', {user: req.user});
 });
 
 // USER PROFILE
 // DEPLOY BELOW ONCE login works
 app.get('/my_profile', function(req,res){
-  db.User.find(req.user.id).done(function(err, user){
-    res.render('users/user_profile', {user:req.user});
-    });
-  });
+  res.render('users/user_profile', {user: req.user});
+});
+  // console.log(db.user);
+  // console.log(this.User);
+
+// ADDING TO THE
+app.post('/my_profile', function(req,res){
+  console.log("user is ", req.user.first_name);
+  db.User.updateInfo(
+    req.user.id,
+    req.body.profile_photo,
+    req.body.cover_photo,
+    req.body.about_me
+  );
+  res.redirect('/my_profile');
+});
+
 // app.get('/my_profile', function(req,res){
 //   res.render('users/user_profile');
 // });
 
+app.post('/artist_submit', function(req, res){
+  db.Artist.createNewArtist(req.body.city, req.body.state, req.body.zip_code, req.body.category, req.body.artist_name,
+        function(err){
+          console.log("ERROR!");
+          console.log(err);
+          res.redirect('/dashboard');//, {message: err.message, email_address: req.body.email_address});
+        },
+        function(success){
+          console.log("GREAT SUCCESS!");
+          console.log(success);
+          res.redirect('/artist/id');//, {message: success.message});
+        }
+      );
+});
 
-app.get('/messages', function(reqs, res){
+// Edit - done
+app.get('/my_dreams/:id/edit', function(req, res) {
+  var id = req.params.id;
+  db.Post.find(id).done(function(err,post){
+    res.render('posts/edit', {post: post});
+  });
+});
+
+app.get('/messages', function(req, res){
   res.render('users/messages');
 });
 
@@ -167,7 +189,6 @@ app.get('/messages', function(reqs, res){
 app.get('/search', function(req,res){
     res.render('search_results/search');
 });
-
 
 
 // app.post('/artist-submit', function(req, res){

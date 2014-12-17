@@ -22,8 +22,8 @@ margin-left: auto;
 }
 
 .navbar {
-  background-color: transparent;
-  color: red;
+  background-color: rgba(0, 0, 0, 0.4);
+  color: #530E8C;
 }
 
 
@@ -105,7 +105,7 @@ margin-left: auto;
 
 /* search bar at bottom */
 .search-bar{
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 
 .occupation1 {
@@ -133,17 +133,27 @@ margin-left: auto;
   width: 50%;
 }
 
-.coverPic {
-  height: 250px;
-  width: 1175px;
-  color: yellow;
+
+/* INDIVIDUAL ARTIST PAGE */
+.profilePic {
+  max-height: 150px;
+  max-width: 150px;
+  /*background-color: white;*/
+  margin-top: 20px;
+  /*margin-left: 60px;*/
+  /*border: 2px black solid;*/
 }
 
-.profilePic {
-  height: 125px;
-  width: 125px;
-  color: blue;
+.coverPic {
+  margin: 0 auto;
+  max-width: 1175px;
+  max-height: 250px;
+  display: inline-block;
+  margin-top: 20px;
+  /*background-color: white;*/
+  /*border: 2px black solid;*/
 }
+
 
 
 /* CHAT APPLICATION */
