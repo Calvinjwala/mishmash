@@ -20,7 +20,6 @@ var express = require("express"),
 
 app.set('view engine', 'ejs');
 app.use(express.static(__dirname + '/public'));
-app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({extended: true}) );
 app.use(methodOverride('_method'));
 
@@ -79,6 +78,28 @@ app.get('/', function(req, res){
   res.render('index');
 });
 
+
+// LOG IN
+// app.post('/', routeMiddleware.checkAuthentication, function(req,res){
+//   console.log("works... kinda");
+//   console.log(req.user);
+//     res.render('users/dashboard', {message: req.flash('loginMessage'), error: req.flash('error'), email_address:""});
+// });
+
+// app.get('/login', routeMiddleware.preventLoginSignup, function(req,res){
+//   res.render('users/dashboard');
+// });
+
+// authenticate users when logging in - no need for req,res passport does this for us -done
+app.post('/login', passport.authenticate('local',{
+  successRedirect: '/dashboard',
+  failureRedirect: '/',
+  failureFlash: true
+}));
+
+
+// routeMiddleware.preventLoginSignup
+// SIGN UP
 app.post('/submit', function(req, res){
   db.User.createNewUser(req.body.first_name, req.body.last_name, req.body.email_address, req.body.password,
         function(err){
@@ -87,13 +108,14 @@ app.post('/submit', function(req, res){
           res.redirect('/');//, {message: err.message, email_address: req.body.email_address});
         },
         function(success){
-          console.log("GREAT SUCCESS!");
+          res.alert("GREAT SUCCESS!");
           console.log(success);
           res.redirect('/');//, {message: success.message});
         }
       );
-  // res.render('/');
 });
+
+
 
 app.get('/search', function(req, res){
   res.render('search_results/search');
@@ -105,8 +127,8 @@ app.get('/search', function(req, res){
 //   res.render('users/dashboard', {user: req.user});
 // });
 
-app.get('/dashboard', function(req, res){
-  res.render('users/dashboard');
+app.get('/dashboard', routeMiddleware.checkAuthentication, function(req, res){
+  res.render('users/dashboard', {user: req.user});
 });
 
 
@@ -144,31 +166,29 @@ app.get('/messages', function(reqs, res){
 //     res.render('search_results/search', {userInfo: JSON.stringify(coords)});
 //   });
 // });
-// app.get('/search', function(req,res){
-//     res.render('search_results/search');
-// });
+app.get('/search', function(req,res){
+    res.render('search_results/search');
+});
 
 
 
 
 
 // app.post('/artist-submit', function(req, res){
-//   db.Artist.createNewUser(req.body.first_name, req.body.last_name, req.body.email_address, req.body.password,
+//   db.Artist.createNewArtist(req.body.first_name, req.body.last_name, req.body.email_address, req.body.password,
 //         function(err){
-//           console.log("ERROR!")
+//           console.log("ERROR!");
 //           console.log(err);
 //           res.redirect('/', {message: err.message, email_address: req.body.email_address});
 //         },
 //         function(success){
-//           console.log("GREAT SUCCESS!")
+//           console.log("GREAT SUCCESS!");
 //           console.log(success);
 //           res.redirect('/', {message: success.message});
 //         }
 //       );
 //   // res.render('/');
 // });
-
-
 
 
 
