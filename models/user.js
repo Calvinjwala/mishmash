@@ -71,7 +71,6 @@ module.exports = function(sequelize, DataTypes) {
         User.find({ where: {id: user_id}}).success(function (user) {
           console.log("WOW User is: " + user.first_name);
           console.log("WOW about_me is: " + about_me);
-
           var newValues = {};
           if (about_me) {
             newValues.about_me = about_me;

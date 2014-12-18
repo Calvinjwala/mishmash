@@ -1,8 +1,9 @@
 <% include ../partials/user_nav %>
-<div class="container">
-<h1>Hello, <%= user.first_name %></h1><br>
 
-<form action="/my_profile" method="post">
+<div class="container">
+<h1>Hello, <%=user.first_name%></h1><br>
+
+<form action="/profile" method="post">
 <p>Upload your Profile Picture</p>
 <input type="hidden" name="profile_photo"
   role="uploadcare-uploader"
@@ -26,10 +27,8 @@
 <br><br>
 
 <p>
-  <label for="about_me">About Me</label><br><textarea rows="4" cols="100" id="about_me" name="about_me" maxlength="500">
-  <% if (user.about_me !== null) { %>
-  <%= user.about_me %>
-  <% }; %></textarea>
+  <label for="about_me">About Me</label><br>
+  <textarea rows="4" cols="100" id="about_me" name="about_me" maxlength="500"><% if (user.about_me !== null) { %><%= user.about_me%><% }; %></textarea>
 </p>
 
 <br>

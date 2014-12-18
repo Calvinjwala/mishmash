@@ -23,13 +23,15 @@
     </div>
   </div>
 </div>
+
+
 <script src="//ucarecdn.com/widget/1.5.0/uploadcare/uploadcare-1.5.0.min.js"></script>
 
 
 <script>
   var widgets = uploadcare.initialize();
 
-  uploadcare(null, {,
+  uploadcare(null, {
     imagesOnly: true
   }).done(function(file) {
     console.log(file)

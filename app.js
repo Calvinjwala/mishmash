@@ -9,6 +9,7 @@ var express = require("express"),
   methodOverride = require('method-override'),
   // angular = require('angular'),
   app = express();
+
   var morgan = require('morgan');
   // var http = require('http').Server(app);
   // var io = require('socket.io')(http);
@@ -22,6 +23,7 @@ app.set('view engine', 'ejs');
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({extended: true}) );
 app.use(methodOverride('_method'));
+app.use(flash());
 
 app.use(session( {
   secret: 'thisismysecretkey',
@@ -74,13 +76,14 @@ app.get('/search', function(req, res){
 app.post('/submit', function(req, res){
   db.User.createNewUser(req.body.first_name, req.body.last_name, req.body.email_address, req.body.password,
         function(err){
-          console.log("ERROR!");
-          console.log(err);
           res.redirect('/');
+          console.log(err);
+          // res.redirect('/');
         },
         function(success){
-          res.alert("GREAT SUCCESS!");
+          // res.flash("GREAT SUCCESS!");
           console.log(success);
+          // res.redirect('/');
           res.redirect('/');
         }
       );
@@ -96,24 +99,30 @@ app.post('/login', passport.authenticate('local',{
 
 
 // ADDING TO THE USER INFORMATION and UPDATES
-app.post('/my_profile', function(req,res){
+app.post('/profile', function(req,res){
   console.log("user is ", req.user.first_name);
   db.User.updateInfo(
     req.user.id,
     req.body.profile_photo,
-    req.body.cover_photo,
+    req.body.covers_photo,
     req.body.about_me,
     function (updatedUser) {
-      res.redirect('/my_profile');
+      var id = req.user.id;
+      res.redirect('/profile/'+ id);
     },
     function (error) {
-      res.redirect('/my_profile');
+      var id = req.user.id;
+      res.redirect('/profile/'+ id);
     }
   );
-
 });
 
 
+// USER PROFILE ROUTE
+app.get('/profile/:id', function(req,res){
+  var id = req.user.id;
+  res.render('users/user_profile', {user: req.user});
+});
 
 // DASHBOARD FOR USER
 // DEPLOY BELOW ONCE login works
@@ -138,9 +147,9 @@ app.get('/artist/:id', function(req, res){
 
 // USER PROFILE
 // DEPLOY BELOW ONCE login works
-app.get('/my_profile', function(req,res){
-  res.render('users/user_profile', {user: req.user});
-});
+// app.get('/my_profile', function(req,res){
+//   res.render('users/user_profile', {user: req.user});
+// });
   // console.log(db.user);
   // console.log(this.User);
 
@@ -174,7 +183,7 @@ app.post('/artist_submit', function(req, res){
         var zip_code = (longlat[0].longitude + ', ' + longlat[0].latitude);
       }
       else {
-        console.lgo(err);
+        console.log(err);
       }
     });
   });
