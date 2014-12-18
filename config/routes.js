@@ -15,6 +15,15 @@ var routeMiddleware = {
     else {
      return next();
     }
+  },
+
+    preventMultipleArtists: function(req, res, next) {
+    if (req.user.artist) {
+      res.redirect('/artist');
+    }
+    else {
+     return next();
+    }
   }
 };
 module.exports = routeMiddleware;

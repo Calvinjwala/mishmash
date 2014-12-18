@@ -96,10 +96,10 @@ margin-left: auto;
 .circle {
   margin: 0 auto;
   border-radius: 50%;
-  width: 285px;
-  height: 285px;
+  width: 325px;
+  height: 325px;
   display: inline-block;
-  margin-bottom: 30px;
+  margin-bottom: 35px;
 }
 
 /* ids for the circles*/

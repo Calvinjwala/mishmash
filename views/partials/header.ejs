@@ -24,90 +24,6 @@
   UPLOADCARE_PUBLIC_KEY = "8fff672a71e0b671ca07";
 </script>
 
-<!-- FACEBOOK LOGIN -->
-<script>
-  // This is called with the results from from FB.getLoginStatus().
-  function statusChangeCallback(response, err) {
-    console.log('statusChangeCallback');
-    console.log(response);
-    // The response object is returned with a status field that lets the
-    // app know the current login status of the person.
-    // Full docs on the response object can be found in the documentation
-    // for FB.getLoginStatus().
-    if (response.status === 'connected') {
-      // Logged into your app and Facebook.
-      testAPI();
-    } else if (response.status === 'not_authorized') {
-      // The person is logged into Facebook, but not your app.
-      // err({message: 'Please log in with your Facebook Account'})
-      document.getElementById('status').innerHTML = 'Please log ' +
-        'into this app.';
-    } else {
-      // The person is not logged into Facebook, so we're not sure if
-      // they are logged into this app or not.
-      document.getElementById('status').innerHTML = 'Please log ' +
-        'into Facebook.';
-    }
-  }
-
-  // This function is called when someone finishes with the Login
-  // Button.  See the onlogin handler attached to it in the sample
-  // code below.
-  function checkLoginState() {
-    FB.getLoginStatus(function(response) {
-      statusChangeCallback(response);
-    });
-  }
-
-  window.fbAsyncInit = function() {
-  FB.init({
-    appId      : '294227690773463',
-    cookie     : true,  // enable cookies to allow the server to access the session
-    xfbml      : true,  // parse social plugins on this page
-    version    : 'v2.1' // use version 2.1
-  });
-
-  // Now that we've initialized the JavaScript SDK, we call
-  // FB.getLoginStatus().  This function gets the state of the
-  // person visiting this page and can return one of three states to
-  // the callback you provide.  They can be:
-  //
-  // 1. Logged into your app ('connected')
-  // 2. Logged into Facebook, but not your app ('not_authorized')
-  // 3. Not logged into Facebook and can't tell if they are logged into
-  //    your app or not.
-  //
-  // These three cases are handled in the callback function.
-
-  FB.getLoginStatus(function(response) {
-    statusChangeCallback(response);
-  });
-
-  };
-
-  // Load the SDK asynchronously
-  (function(d, s, id) {
-    var js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) return;
-    js = d.createElement(s); js.id = id;
-    js.src = "//connect.facebook.net/en_US/sdk.js";
-    fjs.parentNode.insertBefore(js, fjs);
-  }(document, 'script', 'facebook-jssdk'));
-
-  // Here we run a very simple test of the Graph API after login is
-  // successful.  See statusChangeCallback() for when this call is made.
-  function testAPI() {
-    console.log('Welcome!  Fetching your information.... ');
-    FB.api('/me', function(response) {
-      console.log('Successful login for: ' + response.name);
-      document.getElementById('status').innerHTML =
-        'Thanks for logging in, ' + response.name + '!';
-    });
-  }
-</script>
-
-
-
 <!-- NAV BAR! -->
 <nav class="navbar navbar-fixed-top col-md-12 col-sm-12" role="navigation">
   <div class="container-fluid row col-md-12 col-sm-12" style="padding-left:20px; padding-right:20px">
@@ -122,16 +38,6 @@
       <ul class="nav navbar-nav navbar-right">
         <li><a href="#signModal" data-toggle="modal" class="sign-link">Sign Up</a></li>
         <li><a href="#loginModal" data-toggle="modal" class="sign-link">Log In</a></li>
-<!--         <li class="dropdown hover">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">user.username<span class="caret"></span></a>
-          <ul class="dropdown-menu" role="menu">
-            <li><a href="/dashboard">Dashboard</a></li>
-            <li><a href="/my_profile">My Profile</a></li>
-            <li><a href="/messages">Messages</a></li>
-            <li class="divider"></li>
-            <li><a href="#">Log Out</a></li>
-          </ul>
-        </li> -->
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
@@ -149,28 +55,25 @@
       </div>
       <form action="/submit" method="post">
         <div class="modal-body">
-          <h4>MishMash is a community of creators, artists, and uniquity.</h4>
-            <p>Sign up with Facebook:</p>
-              <fb:login-button scope="public_profile,email" onlogin="checkLoginState();"></fb:login-button>
-            <p>Or with Email:</p>
+          <h4>MishMash is a community of creators, artists, and black sheeps.</h4>
               <div class="form-group">
                 <label autocomplete="on" class="control-label" for="first_name">First Name</label>
-                <input autofocus="autofocus" class="form-control" id="first_name" name="first_name" type="text" />
+                <input class="form-control" id="first_name" name="first_name" type="text" autofocus/>
               </div>
               <div class="form-group">
                 <label autocomplete="on" class="control-label" for="last_name">Last Name</label>
-                <input autofocus="autofocus" class="form-control" id="last_name" name="last_name" type="text" />
+                <input class="form-control" id="last_name" name="last_name" type="text" />
               </div>
               <div class="form-group">
                 <label autocomplete="on" class="control-label" for="email_address">Email Address</label>
-                <input autofocus="autofocus" class="form-control" id="email_address" name="email_address" type="text" />
+                <input class="form-control" id="email_address" name="email_address" type="text" />
               </div>
               <div class="form-group">
                 <label class="control-label" for="password">Password</label>
                 <input class="form-control" id="password" name="password" type="password" />
               </div>
               <div class="modal-footer">
-                <button type="submit" class="btn btn-primary" data-toggle="#signModal">Submit</button>
+                <button type="submit" class="btn btn-primary" style="text-align:center">Submit</button>
               </div>
         </div>
       </form>
@@ -190,20 +93,16 @@
 
       <form action="/login" method="post">
         <div class="modal-body">
-            <p>Log In with Facebook:</p>
-              <fb:login-button scope="public_profile,email" onlogin="checkLoginState();"></fb:login-button>
-            <p>Or with Email:</p>
               <div class="form-group">
                 <label autocomplete="on" class="control-label" for="email_address">Email Address</label>
-                <input autofocus="autofocus" class="form-control" id="email_address" name="email_address" type="text" />
+                <input class="form-control" id="email_address" name="email_address" type="text" autofocus/>
               </div>
               <div class="form-group">
                 <label class="control-label" for="password">Password</label>
                 <input class="form-control" id="password" name="password" type="password" />
               </div>
               <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">Submit
-                </button>
+                <button type="submit" class="btn btn-primary" style="text-align:center">Submit</button>
               </div>
         </div>
       </form>
@@ -211,79 +110,3 @@
     </div>
   </div>
 </div>
-
-<!-- <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span>
-        <h4 class="modal-title" id="myModalLabel">Log In</h4>
-      </div>
-      <div class="modal-body">
-       <h2>Log In with Facebook:</h2>
-        <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
-        </fb:login-button>
-        <h3>Or with Email:</h3>
-       <form action="">Email</form>
-       <form action="">Password</form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary">Submit</button>
-      </div>
-    </div>
-  </div>
-</div> -->
-
-<!-- LOG IN MODAL -->
-<!-- <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-      <div class="modal-content">
-          <div class="modal-header login_modal_header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h2 class="modal-title" id="myModalLabel">Login to Your Account</h2>
-          </div>
-          <div class="modal-body login-modal">
-            <p>MishMash. A community of artists, creators, and innovators.</p>
-            <br/>
-            <div class="clearfix"></div>
-            <div id='social-icons-conatainer'>
-              <div class='modal-body-left'>
-                <div class="form-group">
-                  <label autocomplete="off" class="control-label" for="email_address">Email Address</label>
-                  <input autofocus="autofocus" class="form-control" id="email_address" name="emailAddress" type="text" />
-                </div>
-
-                <div class="form-group">
-                  <label class="control-label" for="password">Password</label>
-                  <input class="form-control" id="password" name="password" type="password" />
-                </div>
-
-                  <a href="#" class="btn btn-success modal-login-btn">Login</a>
-                  <a href="#" class="login-link text-center">Lost your password?</a>
-              </div>
-
-              <div class='modal-body-right'>
-                <div class="modal-social-icons">
-                  <a href='#' class="btn btn-default facebook"> <i class="fa fa-facebook modal-icons"></i><fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
-        </fb:login-button></a>
-                  <a href='#' class="btn btn-default google"> <i class="fa fa-google-plus modal-icons"></i> Sign In with Google </a>
-                </div>
-              </div>
-              <div id='center-line'> OR </div>
-            </div>
-            <div class="clearfix"></div>
-
-            <div class="form-group modal-register-btn">
-              <button class="btn btn-default"> New User Please Register</button>
-            </div>
-          </div>
-          <div class="clearfix"></div>
-          <div class="modal-footer login_modal_footer">
-          </div>
-      </div>
-    </div>
-</div> -->
-
-
-
-

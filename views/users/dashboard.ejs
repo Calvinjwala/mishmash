@@ -4,17 +4,6 @@
 <h1>Hello, <%=user.first_name%></h1><br>
 
 <form action="/profile" method="post">
-<p>Upload your Profile Picture</p>
-<input type="hidden" name="profile_photo"
-  role="uploadcare-uploader"
-  data-crop="150:150"
-  data-images-only="true" />
-<img src="" alt="">
-<% if (user.profile_photo !== null) { %>
-  <a href="<%= user.profile_photo %>" target="_blank">current image</a>
-  <% }; %>
-<br><br>
-<a href=""></a>
 
 <p>Upload a Banner Image</p>
 <input type="hidden" name="cover_photo"
@@ -23,6 +12,17 @@
   data-images-only="true" />
   <% if (user.cover_photo !== null) { %>
   <a href="<%= user.cover_photo %>" target="_blank">current image</a>
+  <% }; %>
+<br><br>
+
+<p>Upload your Profile Picture</p>
+<input type="hidden" name="profile_photo"
+  role="uploadcare-uploader"
+  data-crop="150:150"
+  data-images-only="true" />
+<img src="" alt="">
+<% if (user.profile_photo !== null) { %>
+  <a href="<%= user.profile_photo %>" target="_blank">current image</a>
   <% }; %>
 <br><br>
 

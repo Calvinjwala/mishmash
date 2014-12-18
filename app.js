@@ -25,7 +25,6 @@ app.set('view engine', 'ejs');
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({extended: true}) );
 app.use(methodOverride('_method'));
-app.use(flash());
 
 app.use(session( {
   secret: 'thisismysecretkey',
@@ -35,15 +34,17 @@ app.use(session( {
   })
 );
 
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash());
+
+module.exports = app;
+
 app.use(function(req, res, next){
     res.locals.success_messages = req.flash('success_messages');
     res.locals.error_messages = req.flash('error_messages');
     next();
 });
-
-app.use(passport.initialize());
-app.use(passport.session());
-app.use(flash());
 
 // prepare our serialize functions
 passport.serializeUser(function(user, done){
@@ -63,7 +64,6 @@ passport.deserializeUser(function(id, done){
     done(error, user);
   });
 });
-
 
 
 // ROUTING //
@@ -95,36 +95,17 @@ app.get('/', routeMiddleware.preventLoginSignup, function(req, res){
 // });
 
 
-// SEARCH page, anyone can view //
-app.get('/search', function(req, res){
-  longLatArr = [];
-  console.log("IM HERE YO");
-  db.Artist.findAll().done(function(err, artists){
-    artists.forEach(function(artist){
-      geocoder.geocode(artist.zip_code, function(err, longlat){
-        if (longlat) {
-          var zip_code=(longlat[0].longitude + ', ' + longlat[0].latitude);
-          // console.log(zip_code);
-          longLatArr.push(zip_code);
-          console.log(longLatArr);
-        }
-      });
-    });
-  });
-  res.render('search_results/search', {user: req.user});
-});
-
 // SIGN UP
 app.post('/submit', function(req, res){
   db.User.createNewUser(req.body.first_name, req.body.last_name, req.body.email_address, req.body.password,
         function(err){
-          res.redirect('/');
           console.log(err);
-          // res.redirect('/');
+          res.redirect('/');
         },
         function(success){
           // res.flash("GREAT SUCCESS!");
           console.log(success);
+          // res.locals.success_messages;
           // res.redirect('/');
           res.redirect('/');
         }
@@ -165,16 +146,28 @@ app.get('/profile/:id', function(req,res){
   res.render('users/user_profile', {user: req.user});
 });
 
-// DASHBOARD FOR USER
-// DEPLOY BELOW ONCE login works
-// app.get('/dashboard', routeMiddleware.checkAuthentication, function(req, res){
-//   res.render('users/dashboard', {user: req.user});
-// });
-
 app.get('/dashboard', routeMiddleware.checkAuthentication, function(req, res){
   res.render('users/dashboard', {user: req.user});
 });
 
+// SEARCH page, anyone can view //
+app.get('/search', function(req, res){
+  LatLngArr = [];
+  console.log("IM HERE YO");
+  db.Artist.findAll().done(function(err, artists){
+    artists.forEach(function(artist){
+      geocoder.geocode(artist.zip_code, function(err, latlng){
+        if (latlng) {
+          var zip_code=(latlng[0].latitude + ', ' + latlng[0].longitude);
+          // console.log(zip_code);
+          LatLngArr.push(zip_code);
+          console.log(LatLngArr);
+        }
+      });
+    });
+  });
+  res.render('search_results/search', {user: req.user});
+});
 
 // LINK TO BECOME AN ARTIST
 // need to make it disappear once they are officially artists
@@ -183,7 +176,7 @@ app.get('/new-artist', function(req, res){
 });
 
 app.get('/artist/:id', function(req, res){
-  res.render('artists/artist_profile', {user: req.user});
+  res.render('artists/artist_profile', {artist: req.artist, user: req.user});
 });
 
 // USER PROFILE
@@ -219,41 +212,21 @@ app.post('/artist_submit', function(req, res){
     });
   });
 
+// app.get('/artist/:id/edit', function(req, res) {
+//   var id = artist.id;
+//   console.log(id);
+//   db.Artist.find(id).done(function(err,artist){
+//     res.render('artists/artist_edit', {artist: artist});
+//   });
+// });
 
-
-// Edit - done
-app.get('/my_dreams/:id/edit', function(req, res) {
-  var id = req.params.id;
-  db.Post.find(id).done(function(err,post){
-    res.render('posts/edit', {post: post});
-  });
-});
 
 app.get('/messages', function(req, res){
   res.render('users/messages');
 });
 
 
-// app.get('/search', function(req,res){
-//   console.log("IM HERE YO YOY OYO");
-//   // db.Artist.All().done(function(err, artists){
-//   //   console.log(artists);
-//     // geocoder.geocode(artists.zip_code, function(err, longlat) {
-//     // console.log(longlat);
-//     //   if (longlat) {
-//     //     var zip_code = (longlat[0].longitude + ', ' + longlat[0].latitude);
-//     //     console.log(zip_code);
-//     //   }
-//     //   else {
-//     //     console.log(err);
-//     //   }
-//     // });
-//     // var coords = artist.map(function (artist) {
-//     //   return {name: user.first_name, location: artist.zip_code, category:user.category};
-//     // });
-//     // res.render('search_results/search', {userInfo: JSON.stringify(coords)});
-//   // });
-// });
+
 
 
 // app.post('/artist-submit', function(req, res){
@@ -274,7 +247,6 @@ app.get('/messages', function(req, res){
 
 
 app.get('/logout', function(req,res){
-  //req.logout added by passport - delete the user id/session
   req.logout();
   res.redirect('/');
 });

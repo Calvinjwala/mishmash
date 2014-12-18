@@ -27,6 +27,21 @@
 
 <script src="//ucarecdn.com/widget/1.5.0/uploadcare/uploadcare-1.5.0.min.js"></script>
 
+<script>
+function setDimensions(){
+   var windowsHeight = $(window).height();
+   $('.item').css('height', windowsHeight + 'px');
+   $('.carousel-caption').css('height', (windowsHeight/2) + 'px');
+
+}
+
+//when resizing the site, we adjust the heights of the sections
+$(window).resize(function() {
+    setDimensions();
+});
+
+setDimensions();
+</script>
 
 <script>
   var widgets = uploadcare.initialize();
@@ -41,9 +56,5 @@
   });
 </script>
 
-<script>
-var $ = uploadcare.jQuery;
-$('cover_img').append('fileInfo.cdnUrl')
-</script>
 
 <% include ../partials/footer %>

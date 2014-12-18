@@ -1,103 +1,65 @@
 <% include ../partials/user_nav %>
 
-<html>
-  <head>
 
-<script>
-function initialize() {
-  var mapOptions = {
-    zoom: 8,
-    center: new google.maps.LatLng(-34.397, 150.644)
-  };
+  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCDzCw5dM7DygpMe9MT2mPkty_-5r5dheE"></script>
 
-  var map = new google.maps.Map(document.getElementById('map-canvas'),
-      mapOptions);
-}
+  <script>
+  function init() {
+    var mapDiv = document.getElementById('map-canvas');
+    var mapOptions = {
+        zoom: 10,
+        center: new google.maps.LatLng (37.7890183, -122.3915063)
+    };
+    var map = new google.maps.Map(mapDiv, mapOptions)
 
-function loadScript() {
-  var script = document.createElement('script');
-  script.type = 'text/javascript';
-  script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&' +
-      'callback=initialize';
-  document.body.appendChild(script);
-}
+    var artists = [];
+    artists.push ( { category: 1, latlng: new google.maps.LatLng (37.7890183, -122.3915063)} );
+    artists.push ( { category: 3, latlng: new google.maps.LatLng (33.5714289, -117.7314729)} );
 
-window.onload = loadScript;
-</script>
-
-    <script type="text/javascript"
-src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCDzCw5dM7DygpMe9MT2mPkty_-5r5dheE">
-</script>
-    <script type="text/javascript">
-      function initialize() {
-        var mapOptions = {
-          center: { lat: -34.397, lng: 150.644},
-          zoom: 8
-        };
-        var map = new google.maps.Map(document.getElementById('map-canvas'),
-            mapOptions);
-      }
-      google.maps.event.addDomListener(window, 'load', initialize);
-    </script>
-
-
-
-<script>
-  var myLatlng = new google.maps.LatLng(-25.363882,131.044922);
-  var mapOptions = {
-    zoom: 4,
-    center: myLatlng
+    var bounds = new google.maps.LatLngBounds ();
+    for (var i=0; i<artists.length; i++) {
+      var marker = new google.maps.Marker({position: artists[i].latlng, map:map, category:artists[i].category});
+        bounds.extend (artists[i].latlng);
+    }
+    map.fitBounds (bounds);
   }
+  // google.maps.event.addDomListener(window, 'load', init);
+  window.onload = init;
+  </script>
 
-  var marker = new google.maps.Marker({
-    position: myLatlng,
-    map: map,
-    title:"Hello World!"
-});
-</script>
+<body>
 
-
-  </head>
-  <body>
+  <div id="map-canvas" class="col-lg-6 col-md-12 col-sm-12" style="margin-top: 50px; width:50%; height:100%; display:inline-block"><h1>hello</h1></div>
 
 
-<div id="map-canvas" class="col-lg-6 col-md-6 col-sm-12" style="margin-top: 50px"></div>
-<div class="col-lg-6 col-md-6 col-sm-12 search-bar" style="margin-top: 50px">
-    <h1 style="text-align:center">Search San Francisco for Local Artists</h1>
-      <form action="/search" method="post" class="search_params">
-        <select class="occupation1" name="Artist Categories">
-          <option value="1">Architecture</option>
-          <option value="2">Carpentry</option>
-          <option value="3">Ceramics</option>
-          <option value="4">Gastronomy</option>
-          <option value="5">Glass</option>
-          <option value="6">Illustrations</option>
-          <option value="7">Installations</option>
-          <option value="8">Interior Design</option>
-          <option value="9">Jewelry</option>
-          <option value="10">Landscape</option>
-          <option value="11">Mural</option>
-          <option value="12">Painting</option>
-          <option value="13">Permaculture</option>
-          <option value="14">Photography</option>
-          <option value="15">Sculpture</option>
-          <option value="16">Street Art</option>
-          <option value="17">Tattoo</option>
-          <option value="18">Textile</option>
-        </select>
-      <input type="hidden" name="source" value="bb"><button type="submit" class="search-button form-inline btn btn-primary btn-large" id="submit_location">
-        Search</button>
-      </form>
+  <div class="col-lg-6 col-md-12 col-sm-12 search-bar" style="margin-top: 50px; display:inline-block">
+      <h1 style="text-align:center">Search San Francisco for Local Artists</h1>
+        <form action="/search" method="get" class="search_params">
+          <select class="occupation1" name="Artist Categories">
+            <option value="1" id="1">Architecture</option>
+            <option value="2" id="2">Carpentry</option>
+            <option value="3" id="3">Ceramics</option>
+            <option value="4" id="4">Gastronomy</option>
+            <option value="5" id="5">Glass</option>
+            <option value="6" id="6">Illustrations</option>
+            <option value="7" id="7">Installations</option>
+            <option value="8" id="8">Interior Design</option>
+            <option value="9" id="9">Jewelry</option>
+            <option value="10" id="10">Landscape</option>
+            <option value="11" id="11">Mural</option>
+            <option value="12" id="12">Painting</option>
+            <option value="13" id="13">Permaculture</option>
+            <option value="14" id="14">Photography</option>
+            <option value="15" id="15">Sculpture</option>
+            <option value="16" id="16">Street Art</option>
+            <option value="17" id="17">Tattoo</option>
+            <option value="18" id="18">Textile</option>
+          </select>
+        <input type="hidden" name="source" value="bb"><button type="submit" class="search-button form-inline btn btn-primary btn-large" id="submit_location">
+          Search</button>
+        </form>
+      </div>
     </div>
-  </div>
-</div>
 
 
-
-
-
-
-
-
-  </body>
-</html>
+<% include ../partials/footer %>
