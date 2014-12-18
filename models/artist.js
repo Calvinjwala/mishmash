@@ -14,7 +14,7 @@ module.exports = function(sequelize, DataTypes) {
         Artist.hasMany(models.Album, {foreignKey: "ArtistId"});
         Artist.belongsTo(models.User);
       },
-      createNewArtist:function(city, state, zip_code, category, artist_name, err, success ) {
+      createNewArtist:function(city, state, zip_code, category, artist_name, err, success) {
             Artist.create({
             city: city,
             state: state,

@@ -10,21 +10,47 @@
         zoom: 10,
         center: new google.maps.LatLng (37.7890183, -122.3915063)
     };
+
     var map = new google.maps.Map(mapDiv, mapOptions)
 
+    var contentString = '<div class="container">' +
+    '<p> <a href="/profile/<%= user.id %>"><%= user.first_name %></a></li></p>' +
+    '</div>';
+
+    var infowindow = new google.maps.InfoWindow({
+      content: contentString
+    });
+
     var artists = [];
-    artists.push ( { category: 1, latlng: new google.maps.LatLng (37.7890183, -122.3915063)} );
-    artists.push ( { category: 3, latlng: new google.maps.LatLng (33.5714289, -117.7314729)} );
+    <% location.forEach(function(loc){ %>
+      // category: loc[0],
+    artists.push({latlng: new google.maps.LatLng (<%=loc%>)});
+    <% }) %>
+
+    console.log(artists)
+
+
+    // artists.push ( { category: 1, latlng: new google.maps.LatLng (37.7890183, -122.3915063)} );
+    // artists.push ( { category: 3, latlng: new google.maps.LatLng (33.5714289, -117.7314729)} );
+
 
     var bounds = new google.maps.LatLngBounds ();
     for (var i=0; i<artists.length; i++) {
-      var marker = new google.maps.Marker({position: artists[i].latlng, map:map, category:artists[i].category});
+      var marker = new google.maps.Marker({
+        position: artists[i].latlng,
+        map:map,
+        // category:artists[i].category
+        });
         bounds.extend (artists[i].latlng);
     }
     map.fitBounds (bounds);
+
+    google.maps.event.addListener(marker, 'click', function(){
+      infowindow.open(map, marker);
+    });
   }
-  // google.maps.event.addDomListener(window, 'load', init);
-  window.onload = init;
+  google.maps.event.addDomListener(window, 'load', init);
+  // window.onload = init;
   </script>
 
 <body>
@@ -58,6 +84,7 @@
         <input type="hidden" name="source" value="bb"><button type="submit" class="search-button form-inline btn btn-primary btn-large" id="submit_location">
           Search</button>
         </form>
+
       </div>
     </div>
 

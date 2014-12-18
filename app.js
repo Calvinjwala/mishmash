@@ -153,30 +153,39 @@ app.get('/dashboard', routeMiddleware.checkAuthentication, function(req, res){
 // SEARCH page, anyone can view //
 app.get('/search', function(req, res){
   LatLngArr = [];
-  console.log("IM HERE YO");
   db.Artist.findAll().done(function(err, artists){
+    var total = artists.length;
+    var current = 0;
     artists.forEach(function(artist){
+      // var cat = artist.category;
       geocoder.geocode(artist.zip_code, function(err, latlng){
         if (latlng) {
           var zip_code=(latlng[0].latitude + ', ' + latlng[0].longitude);
           // console.log(zip_code);
           LatLngArr.push(zip_code);
-          console.log(LatLngArr);
+          // console.log("this is one latlng", zip_code);
+          current++;
+          if (current >= total) {
+            console.log("this is the array ", LatLngArr);
+            res.render('search_results/search', {user: req.user, location: LatLngArr});
+          }
         }
       });
+      // console.log("first time, ", LatLngArr);
     });
   });
-  res.render('search_results/search', {user: req.user});
 });
 
 // LINK TO BECOME AN ARTIST
 // need to make it disappear once they are officially artists
 app.get('/new-artist', function(req, res){
-  res.render('artists/new_artist', {user: req.user});
+  res.render('artists/new_artist', {user: req.user, artist: req.artist});
 });
 
 app.get('/artist/:id', function(req, res){
-  res.render('artists/artist_profile', {artist: req.artist, user: req.user});
+  res.render('artists/artist_profile', {artist: req.params.artist, user: req.user});
+  console.log(artist);
+  console.log(user);
 });
 
 // USER PROFILE
@@ -193,7 +202,12 @@ app.get('/artist/:id', function(req, res){
 // });
 
 app.post('/artist_submit', function(req, res){
-  db.Artist.createNewArtist(req.body.city, req.body.state, req.body.zip_code, req.body.category, req.body.artist_name,
+  db.Artist.createNewArtist(
+    req.body.city,
+    req.body.state,
+    req.body.zip_code,
+    req.body.category,
+    req.body.artist_name,
     function(err){
       console.log("ERROR!");
       console.log(err);
@@ -206,13 +220,32 @@ app.post('/artist_submit', function(req, res){
         if (err) {
           res.redirect('/dashboard');
         } else {
-          res.redirect('/artist/' + artist.id);
+          res.render('/profile/:id', {artist: req.artist});
         }
+      });
+    });
+    db.Album.createNewAlbum(
+      req.body.title,
+      req.body.image,
+      req.body.description,
+      req.body.price,
+      function(err){
+        console.log("ERROR!");
+        console.log(err);
+        res.redirect('/dashboard');
+      }, function(album){
+        console.log("another success!");
+        album.setArtist(req.artist).done(function (err,album){
+          if(err) {
+            res.redirect('/dashboard');
+          } else {
+            res.render('/profile/:id', {album: req.album});
+          }
       });
     });
   });
 
-// app.get('/artist/:id/edit', function(req, res) {
+// app.get('/artist/:id', function(req, res) {
 //   var id = artist.id;
 //   console.log(id);
 //   db.Artist.find(id).done(function(err,artist){

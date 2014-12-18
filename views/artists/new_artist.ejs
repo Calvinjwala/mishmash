@@ -4,9 +4,10 @@
   <div class="rows">
 
   <h1>New Artist Page</h1>
-
+  <form action="/artist_submit" method="post" class="search_params2">
+  <div class="col-lg-6 col-md-6 col-sm-12">
+  <h4>Artist information:</h4>
     <div class="form-group">
-    <form action="/artist_submit" method="post" class="search_params2">
       <label autocomplete="off" class="control-label" for="category" value="category">Category</label><br>
       <select class="occupation" id="category" name="category" name="category">
         <option name="artist[category]" value="1">Architecture</option>
@@ -32,29 +33,73 @@
 
     <div class="form-group">
       <label class="control-label" for="city">City</label><br>
-      <input class="artist-form" id="city" name="city" type="text">
+      <input class="artist-form1" id="city" name="city" type="text">
     </div>
 
     <div class="form-group">
       <label autocomplete="off" class="control-label" for="state">State</label><br>
-      <input autofocus="autofocus" class="artist-form" id="state" name="state" type="text">
+      <input autofocus="autofocus" class="artist-form1" id="state" name="state" type="text">
     </div>
 
     <div class="form-group">
       <label autocomplete="off" class="control-label" for="zip_code">Zip Code</label><br>
-      <input autofocus="autofocus" class="artist-form" id="zip_code" name="zip_code" type="text">
+      <input autofocus="autofocus" class="artist-form1" id="zip_code" name="zip_code" type="text">
     </div>
 
   <h3>Optional: </h3>
     <div class="form-group">
       <label autocomplete="off" class="control-label" for="artist_name">Artist Name</label><br>
-      <input autofocus="autofocus" class="artist-form" id="artist_name" name="artist_name" type="text">
+      <input autofocus="autofocus" class="artist-form1" id="artist_name" name="artist_name" type="text">
+    </div>
+     <input type="submit" value="Save" class ="btn">
+  </div>
+
+
+ <div class="col-lg-6">
+  <h4>Showcase your work!</h4>
+    <div class="form-group">
+      <label autocomplete="off" class="control-label" for="title">Title of artwork</label><br>
+      <input autofocus="autofocus" class="artist-form1" id="title" name="title" type="text">
     </div>
 
-   <input type="submit" value="Save" class ="btn">
+    <div class="form-group">
+      <label autocomplete="off" class="control-label" for="price">Price of Services</label><br>
+      <input autofocus="autofocus" class="artist-form1" id="price" name="price" type="text">
+    </div>
+
+    <div class="form-group">
+      <label autocomplete="off" class="control-label" for="description">Description</label><br>
+      <textarea rows="4" style="width:100%" name="description" maxlength="500"></textarea>
+    </div>
+
+    <label class="control-label">Upload a Profile Photo</label><br>
+    <input type="hidden" name="image"
+      role="uploadcare-uploader"
+      data-multiple-max=5
+      data-images-only="true" />
+    <br><br>
+
+ </div>
+
  </form>
+
+
+
 
   </div>
 </div>
+
+<script src="//ucarecdn.com/widget/1.5.0/uploadcare/uploadcare-1.5.0.min.js"></script>
+
+<script>
+  uploadcare(null, {
+    imagesOnly: true
+  }).done(function(file) {
+    console.log(file)
+    file.promise().done(function(fileInfo){
+      console.log(fileInfo.cdnUrl);
+    });
+  });
+</script>
 
 <% include ../partials/footer %>

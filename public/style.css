@@ -135,7 +135,7 @@ margin-left: auto;
 
 .occupation {
   text-align: left;
-  width: 50%;
+  width: 100%;
   font-size: 250%;
 }
 
@@ -147,6 +147,9 @@ margin-left: auto;
   width: 50%;
 }
 
+.artist-form1 {
+  width: 100%;
+}
 
 /* INDIVIDUAL ARTIST PAGE */
 .profilePic {
@@ -173,6 +176,11 @@ margin-left: auto;
 }
 
 
+
+.tile {
+  width: 200px;
+  max-width: 200px;
+}
 
 
 /* CHAT APPLICATION */

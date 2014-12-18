@@ -15,7 +15,22 @@ module.exports = function(sequelize, DataTypes) {
       associate: function(models) {
         Album.belongsTo(models.Artist);
       }
-    }
+    },
+    createNewAlbum:function(title, image, description, price, err, success) {
+      Album.create({
+      title: title,
+      image: image,
+      description: description,
+      price: price
+      }).done(function(error, album) {
+      if(error) {
+        console.log(error);
+      }
+      else{
+        success(album);
+      }
+    });
+  }
   });
 
   return Album;

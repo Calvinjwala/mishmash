@@ -29,18 +29,18 @@
 
 <script>
 function setDimensions(){
-   var windowsHeight = $(window).height();
-   $('.item').css('height', windowsHeight + 'px');
+   var windowsWidth = $(window).width();
+   $('.coverPhoto').css('width', windowsWidth + 'px');
    $('.carousel-caption').css('height', (windowsHeight/2) + 'px');
 
 }
 
-//when resizing the site, we adjust the heights of the sections
 $(window).resize(function() {
     setDimensions();
 });
 
 setDimensions();
+
 </script>
 
 <script>
