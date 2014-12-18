@@ -7,8 +7,8 @@
   function init() {
     var mapDiv = document.getElementById('map-canvas');
     var mapOptions = {
-        zoom: 10,
-        center: new google.maps.LatLng (37.7890183, -122.3915063)
+        zoom: 8,
+        // center: new google.maps.LatLng (37.7890183, -122.3915063)
     };
 
     var map = new google.maps.Map(mapDiv, mapOptions)
@@ -23,10 +23,8 @@
 
     var artists = [];
     <% location.forEach(function(loc){ %>
-      // category: loc[0],
     artists.push({latlng: new google.maps.LatLng (<%=loc%>)});
     <% }) %>
-
     console.log(artists)
 
 

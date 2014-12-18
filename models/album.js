@@ -10,11 +10,10 @@ module.exports = function(sequelize, DataTypes) {
     is_available: DataTypes.BOOLEAN,
     price: DataTypes.STRING,
     ArtistId: DataTypes.INTEGER
-  }, {
+    }, {
     classMethods: {
       associate: function(models) {
         Album.belongsTo(models.Artist);
-      }
     },
     createNewAlbum:function(title, image, description, price, err, success) {
       Album.create({
@@ -31,6 +30,7 @@ module.exports = function(sequelize, DataTypes) {
       }
     });
   }
+}
   });
 
   return Album;

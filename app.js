@@ -73,28 +73,6 @@ app.get('/', routeMiddleware.preventLoginSignup, function(req, res){
   res.render('index');
 });
 
-// app.get('/search', function(req,res){
-//   console.log("IM HERE YO YOY OYO");
-//   // db.Artist.All().done(function(err, artists){
-//   //   console.log(artists);
-//     // geocoder.geocode(artists.zip_code, function(err, longlat) {
-//     // console.log(longlat);
-//     //   if (longlat) {
-//     //     var zip_code = (longlat[0].longitude + ', ' + longlat[0].latitude);
-//     //     console.log(zip_code);
-//     //   }
-//     //   else {
-//     //     console.log(err);
-//     //   }
-//     // });
-//     // var coords = artist.map(function (artist) {
-//     //   return {name: user.first_name, location: artist.zip_code, category:user.category};
-//     // });
-//     // res.render('search_results/search', {userInfo: JSON.stringify(coords)});
-//   // });
-// });
-
-
 // SIGN UP
 app.post('/submit', function(req, res){
   db.User.createNewUser(req.body.first_name, req.body.last_name, req.body.email_address, req.body.password,
@@ -106,7 +84,6 @@ app.post('/submit', function(req, res){
           // res.flash("GREAT SUCCESS!");
           console.log(success);
           // res.locals.success_messages;
-          // res.redirect('/');
           res.redirect('/');
         }
       );
@@ -176,6 +153,32 @@ app.get('/search', function(req, res){
   });
 });
 
+// app.get('/search', function(req, res){
+  // LatLngArr = [];
+  // db.Artist.findAll().done(function(err, artists){
+  //   var total = artists.length;
+  //   var current = 0;
+  //   artists.forEach(function(artist){
+  //     // var cat = artist.category;
+  //     // var artistId = artist.id;
+  //     geocoder.geocode(artist.zip_code, function(err, latlng){
+  //       if (latlng) {
+  //         var zip_code=(latlng[0].latitude + ', ' + latlng[0].longitude);
+  //         // console.log(zip_code);
+  //         LatLngArr.push(zip_code);
+  //         // console.log("this is one latlng", zip_code);
+  //         current++;
+  //         if (current >= total) {
+  //           console.log("this is the array ", LatLngArr);
+            // res.render('search_results/search', {user: req.user});
+          // }
+        // }
+      // });
+      // console.log("first time, ", LatLngArr);
+//     });
+//   });
+// });
+
 // LINK TO BECOME AN ARTIST
 // need to make it disappear once they are officially artists
 app.get('/new-artist', function(req, res){
@@ -220,29 +223,30 @@ app.post('/artist_submit', function(req, res){
         if (err) {
           res.redirect('/dashboard');
         } else {
-          res.render('/profile/:id', {artist: req.artist});
+          res.redirect('/dashboard');
         }
       });
     });
-    db.Album.createNewAlbum(
-      req.body.title,
-      req.body.image,
-      req.body.description,
-      req.body.price,
-      function(err){
-        console.log("ERROR!");
-        console.log(err);
-        res.redirect('/dashboard');
-      }, function(album){
-        console.log("another success!");
-        album.setArtist(req.artist).done(function (err,album){
-          if(err) {
-            res.redirect('/dashboard');
-          } else {
-            res.render('/profile/:id', {album: req.album});
-          }
-      });
-    });
+    // db.Album.createNewAlbum(
+    //   req.body.title,
+    //   req.body.image,
+    //   req.body.description,
+    //   req.body.price,
+    //   function(err){
+    //     console.log("ERROR!");
+    //     console.log(err);
+    //     res.redirect('/dashboard');
+    //   }, function(album){
+    //     console.log("another success!");
+    //     album.setArtist(req.body.artist).done(function (err,album){
+    //       if(err) {
+    //         res.redirect('/dashboard');
+    //       } else {
+    //         var id = req.user.id;
+    //         res.render('/profile/' + id, {user: req.user});
+    //       }
+    //   });
+    // });
   });
 
 // app.get('/artist/:id', function(req, res) {

@@ -41,6 +41,10 @@ margin-left: auto;
 
 
 /* banner stylings */
+.banner_text {
+  text-shadow: 1px 1px 1px #000;
+}
+
 .item {
   display: block;
   position: absolute;
