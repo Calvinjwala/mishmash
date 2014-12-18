@@ -7,11 +7,6 @@ body {
   padding: 0;
 }
 
-.red {
-  color: red;
-  background-color: purple;
-}
-
 html {
   height: 100%;
   padding: 0;
@@ -172,6 +167,11 @@ margin-left: auto;
   /*background-color: white;*/
   /*border: 2px black solid;*/
 }
+
+.username {
+  margin-bottom: 0px;
+}
+
 
 
 

@@ -60,17 +60,16 @@ passport.deserializeUser(function(id, done){
 
 // ROUTING //
 
-// landing page HOME HOME HOME//
+// HOME HOME HOME LANDING PAGE//
 app.get('/', routeMiddleware.preventLoginSignup, function(req, res){
   res.render('index');
 });
 
 
-// search page, anyone can view //
+// SEARCH page, anyone can view //
 app.get('/search', function(req, res){
   res.render('search_results/search');
 });
-
 
 // SIGN UP
 app.post('/submit', function(req, res){
@@ -120,7 +119,6 @@ app.post('/profile', function(req,res){
 
 // USER PROFILE ROUTE
 app.get('/profile/:id', function(req,res){
-  var id = req.user.id;
   res.render('users/user_profile', {user: req.user});
 });
 
@@ -176,7 +174,6 @@ app.post('/artist_submit', function(req, res){
         }
       });
     });
-
     geocoder.geocode(req.body.zip_code, function(err, longlat) {
     console.log(longlat);
       if (longlat) {
@@ -211,9 +208,6 @@ app.get('/messages', function(req, res){
 //     res.render('search_results/search', {userInfo: JSON.stringify(coords)});
 //   });
 // });
-app.get('/search', function(req,res){
-    res.render('search_results/search');
-});
 
 
 // app.post('/artist-submit', function(req, res){
