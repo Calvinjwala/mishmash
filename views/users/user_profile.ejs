@@ -7,30 +7,29 @@
     <img src="<%=user.profile_photo%>" height="250" width="1175"style="border: 1px black solid"></img>
     </div>
 
+  <div class="col-lg-12">
     <div class="col-lg-2">
       <div class="profilePic">
-        <img src="<%=user.cover_photo%>" height="150" width="150" style="border: 1px black solid"></img>
+          <img src="<%=user.cover_photo%>" height="150" width="150" style="border: 1px black solid"></img>
+        </div>
       </div>
+
+      <div class="col-lg-10">
+      <h2> <%= user.first_name %> <%= user.last_name %> </h2><br>
+      <h4>About Me</h4>
+      <p>
+        <pre><%= user.about_me %></pre>
+      </p>
     </div>
-
-    <div class="col-lg-10">
-    <h2> <%= user.first_name %> <%= user.last_name %> </h2><br>
-    <h4>About Me</h4>
-    <p>
-      <%= user.about_me %>
-    </p>
-
   </div>
 </div>
-
 <script src="//ucarecdn.com/widget/1.5.0/uploadcare/uploadcare-1.5.0.min.js"></script>
 
 
 <script>
   var widgets = uploadcare.initialize();
 
-  uploadcare(null, {
-    crop: "1175:250",
+  uploadcare(null, {,
     imagesOnly: true
   }).done(function(file) {
     console.log(file)

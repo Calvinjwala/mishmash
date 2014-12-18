@@ -3,6 +3,19 @@ body {
   font-family: 'Open Sans', sans-serif;
   font-weight: 110%;
   font: black;
+  height: 100%;
+  padding: 0;
+}
+
+html {
+  height: 100%;
+  padding: 0;
+}
+
+#map-canvas {
+  height: 96%;
+  margin-top: 30px;
+  padding: 0;
 }
 
 .container-fluid {
@@ -22,8 +35,8 @@ margin-left: auto;
 }
 
 .navbar {
-  background-color: rgba(0, 0, 0, 0.4);
-  color: #530E8C;
+  background-color: rgba(0, 0, 0, 0.3);
+  color: yellow;
 }
 
 
@@ -106,6 +119,7 @@ margin-left: auto;
 /* search bar at bottom */
 .search-bar{
   margin-bottom: 20px;
+  margin-top: 30px;
 }
 
 .occupation1 {
@@ -126,7 +140,7 @@ margin-left: auto;
 }
 
 .nav>li>a {
-  color: #FF4036;
+  color: yellow;
 }
 
 .artist-form {
@@ -166,6 +180,16 @@ margin-left: auto;
   color: #333;
 }
 
+
+
+
+
+/* SEARCH PART */
+/*#map-canvas {
+  height: 100%;
+  margin-top: 15px;
+  padding: 0;
+}*/
 
 /*form input {
   border: 0;

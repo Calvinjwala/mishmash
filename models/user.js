@@ -71,13 +71,25 @@ module.exports = function(sequelize, DataTypes) {
         User.find({ where: {id: user_id}}).success(function (user) {
           console.log("WOW User is: " + user.first_name);
           console.log("WOW about_me is: " + about_me);
-          user.updateAttributes({
-            'cover_photo': cover_photo,
-            'profile_photo': profile_photo,
-            'about_me': about_me
-          }).success(function(updatedUser) {
+
+          var newValues = {};
+          if (about_me) {
+            newValues.about_me = about_me;
+          }
+          if (cover_photo) {
+            newValues.cover_photo = cover_photo;
+          }
+          if (profile_photo) {
+            newValues.profile_photo = profile_photo;
+          }
+          user.updateAttributes(newValues).success(function(updatedUser) {
             console.log("User updated about_me is: ", updatedUser.about_me);
+            success(updatedUser);
+          }).error(function (error) {
+            err(error);
           });
+        }).error(function (error) {
+          err(error);
         });
       }
 

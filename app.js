@@ -13,9 +13,9 @@ var express = require("express"),
   // var http = require('http').Server(app);
   // var io = require('socket.io')(http);
   var routeMiddleware = require("./config/routes");
-  // var geocoderProvider = 'google';
+  var geocoderProvider = 'google';
   var httpAdapter = 'http';
-  // var geocoder = require('node-geocoder').getGeocoder(geocoderProvider, httpAdapter);
+  var geocoder = require('node-geocoder').getGeocoder(geocoderProvider, httpAdapter);
 
 
 app.set('view engine', 'ejs');
@@ -58,32 +58,18 @@ passport.deserializeUser(function(id, done){
 
 // ROUTING //
 
-// landing page //
+// landing page HOME HOME HOME//
 app.get('/', routeMiddleware.preventLoginSignup, function(req, res){
   res.render('index');
 });
 
 
-// LOG IN
-// app.post('/', routeMiddleware.checkAuthentication, function(req,res){
-//   console.log("works... kinda");
-//   console.log(req.user);
-//     res.render('users/dashboard', {message: req.flash('loginMessage'), error: req.flash('error'), email_address:""});
-// });
-
-// app.get('/login', routeMiddleware.preventLoginSignup, function(req,res){
-//   res.render('users/dashboard');
-// });
-
-// authenticate users when logging in - no need for req,res passport does this for us -done
-app.post('/login', passport.authenticate('local',{
-  successRedirect: '/dashboard',
-  failureRedirect: '/',
-  failureFlash: true
-}));
+// search page, anyone can view //
+app.get('/search', function(req, res){
+  res.render('search_results/search');
+});
 
 
-// routeMiddleware.preventLoginSignup
 // SIGN UP
 app.post('/submit', function(req, res){
   db.User.createNewUser(req.body.first_name, req.body.last_name, req.body.email_address, req.body.password,
@@ -101,9 +87,33 @@ app.post('/submit', function(req, res){
 });
 
 
-app.get('/search', function(req, res){
-  res.render('search_results/search', {search: req.category});
+// LOG IN
+app.post('/login', passport.authenticate('local',{
+  successRedirect: '/dashboard',
+  failureRedirect: '/',
+  failureFlash: true
+}));
+
+
+// ADDING TO THE USER INFORMATION and UPDATES
+app.post('/my_profile', function(req,res){
+  console.log("user is ", req.user.first_name);
+  db.User.updateInfo(
+    req.user.id,
+    req.body.profile_photo,
+    req.body.cover_photo,
+    req.body.about_me,
+    function (updatedUser) {
+      res.redirect('/my_profile');
+    },
+    function (error) {
+      res.redirect('/my_profile');
+    }
+  );
+
 });
+
+
 
 // DASHBOARD FOR USER
 // DEPLOY BELOW ONCE login works
@@ -134,17 +144,6 @@ app.get('/my_profile', function(req,res){
   // console.log(db.user);
   // console.log(this.User);
 
-// ADDING TO THE
-app.post('/my_profile', function(req,res){
-  console.log("user is ", req.user.first_name);
-  db.User.updateInfo(
-    req.user.id,
-    req.body.profile_photo,
-    req.body.cover_photo,
-    req.body.about_me
-  );
-  res.redirect('/my_profile');
-});
 
 // app.get('/my_profile', function(req,res){
 //   res.render('users/user_profile');
@@ -152,18 +151,35 @@ app.post('/my_profile', function(req,res){
 
 app.post('/artist_submit', function(req, res){
   db.Artist.createNewArtist(req.body.city, req.body.state, req.body.zip_code, req.body.category, req.body.artist_name,
-        function(err){
-          console.log("ERROR!");
-          console.log(err);
-          res.redirect('/dashboard');//, {message: err.message, email_address: req.body.email_address});
-        },
-        function(success){
-          console.log("GREAT SUCCESS!");
-          console.log(success);
-          res.redirect('/artist/id');//, {message: success.message});
+    function(err){
+      console.log("ERROR!");
+      console.log(err);
+      res.redirect('/dashboard');//, {message: err.message, email_address: req.body.email_address});
+    },
+    function(artist){
+      console.log("GREAT SUCCESS!");
+      console.log("new artist", artist.artist_name);
+      artist.setUser(req.user).done(function (err, artist) {
+        if (err) {
+          res.redirect('/dashboard');
+        } else {
+          res.redirect('/artist/' + artist.id);
         }
-      );
-});
+      });
+    });
+
+    geocoder.geocode(req.body.zip_code, function(err, longlat) {
+    console.log(longlat);
+      if (longlat) {
+        var zip_code = (longlat[0].longitude + ', ' + longlat[0].latitude);
+      }
+      else {
+        console.lgo(err);
+      }
+    });
+  });
+
+
 
 // Edit - done
 app.get('/my_dreams/:id/edit', function(req, res) {
