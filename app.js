@@ -10,6 +10,8 @@ var express = require("express"),
   // angular = require('angular'),
   app = express();
 
+
+
   var morgan = require('morgan');
   // var http = require('http').Server(app);
   // var io = require('socket.io')(http);
@@ -32,6 +34,12 @@ app.use(session( {
   maxage: 3600000
   })
 );
+
+app.use(function(req, res, next){
+    res.locals.success_messages = req.flash('success_messages');
+    res.locals.error_messages = req.flash('error_messages');
+    next();
+});
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -65,10 +73,45 @@ app.get('/', routeMiddleware.preventLoginSignup, function(req, res){
   res.render('index');
 });
 
+// app.get('/search', function(req,res){
+//   console.log("IM HERE YO YOY OYO");
+//   // db.Artist.All().done(function(err, artists){
+//   //   console.log(artists);
+//     // geocoder.geocode(artists.zip_code, function(err, longlat) {
+//     // console.log(longlat);
+//     //   if (longlat) {
+//     //     var zip_code = (longlat[0].longitude + ', ' + longlat[0].latitude);
+//     //     console.log(zip_code);
+//     //   }
+//     //   else {
+//     //     console.log(err);
+//     //   }
+//     // });
+//     // var coords = artist.map(function (artist) {
+//     //   return {name: user.first_name, location: artist.zip_code, category:user.category};
+//     // });
+//     // res.render('search_results/search', {userInfo: JSON.stringify(coords)});
+//   // });
+// });
+
 
 // SEARCH page, anyone can view //
 app.get('/search', function(req, res){
-  res.render('search_results/search');
+  longLatArr = [];
+  console.log("IM HERE YO");
+  db.Artist.findAll().done(function(err, artists){
+    artists.forEach(function(artist){
+      geocoder.geocode(artist.zip_code, function(err, longlat){
+        if (longlat) {
+          var zip_code=(longlat[0].longitude + ', ' + longlat[0].latitude);
+          // console.log(zip_code);
+          longLatArr.push(zip_code);
+          console.log(longLatArr);
+        }
+      });
+    });
+  });
+  res.render('search_results/search', {user: req.user});
 });
 
 // SIGN UP
@@ -103,7 +146,7 @@ app.post('/profile', function(req,res){
   db.User.updateInfo(
     req.user.id,
     req.body.profile_photo,
-    req.body.covers_photo,
+    req.body.cover_photo,
     req.body.about_me,
     function (updatedUser) {
       var id = req.user.id;
@@ -174,15 +217,6 @@ app.post('/artist_submit', function(req, res){
         }
       });
     });
-    geocoder.geocode(req.body.zip_code, function(err, longlat) {
-    console.log(longlat);
-      if (longlat) {
-        var zip_code = (longlat[0].longitude + ', ' + longlat[0].latitude);
-      }
-      else {
-        console.log(err);
-      }
-    });
   });
 
 
@@ -201,12 +235,24 @@ app.get('/messages', function(req, res){
 
 
 // app.get('/search', function(req,res){
-//   db.Artist.findAll().done(function(err, artists){
-//     var coords = artist.map(function (artist) {
-//       return {name: user.first_name, location: artist.zip_code, category:user.category};
-//     });
-//     res.render('search_results/search', {userInfo: JSON.stringify(coords)});
-//   });
+//   console.log("IM HERE YO YOY OYO");
+//   // db.Artist.All().done(function(err, artists){
+//   //   console.log(artists);
+//     // geocoder.geocode(artists.zip_code, function(err, longlat) {
+//     // console.log(longlat);
+//     //   if (longlat) {
+//     //     var zip_code = (longlat[0].longitude + ', ' + longlat[0].latitude);
+//     //     console.log(zip_code);
+//     //   }
+//     //   else {
+//     //     console.log(err);
+//     //   }
+//     // });
+//     // var coords = artist.map(function (artist) {
+//     //   return {name: user.first_name, location: artist.zip_code, category:user.category};
+//     // });
+//     // res.render('search_results/search', {userInfo: JSON.stringify(coords)});
+//   // });
 // });
 
 
